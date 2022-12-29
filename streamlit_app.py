@@ -29,7 +29,7 @@ data2.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 st.subheader('Raw data ESV')
 st.write(data2)
 
-data3 = pd.merge(data1, data2, how='inner', left_on = 'organisationsnr', right_on = 'orgnr')
+data3 = pd.merge(data1, data2, how='left', left_on = 'organisationsnr', right_on = 'orgnr')
 
 st.subheader('Raw data merged')
 st.write(data3)
