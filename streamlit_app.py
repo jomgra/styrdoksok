@@ -26,10 +26,13 @@ st.title('Sök i myndigheters intruktioner och regleringsbrev')
 st.write("Här kan du söka i alla myndigheters intruktioner och regleringsbrev.")
 
 search = st.text_input(
-        "Sök efter:",
-        label_visibility="visible",
-        disabled=False
-        )
+	"Sök efter:",
+	label_visibility="visible",
+	disabled=False
+	)
+
+st.write("Sökresultat:")
+output = st.text("inget")
 
 data1 = pd.read_excel(webload(myn_scb))
 data1.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
@@ -40,4 +43,5 @@ data2.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 
 data3 = pd.merge(data1, data2, how='left', left_on = 'organisationsnr', right_on = 'orgnr')
 
-st.write(load_sfs("2007:854"))
+if search:
+	st.write(load_sfs("2007:854"))
