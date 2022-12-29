@@ -43,5 +43,9 @@ data2.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 
 data3 = pd.merge(data1, data2, how='left', left_on = 'organisationsnr', right_on = 'orgnr')
 
-if search:
-	output.text(load_sfs("2007:854").lower().count(search.lower()))
+if search:	output.text(load_sfs("2007:854").lower().count(search.lower()))
+
+data3 = data3.reset_index()
+for index, row in data.iterrows():
+    st.write(row['namn'], row['sfs'])
+		
