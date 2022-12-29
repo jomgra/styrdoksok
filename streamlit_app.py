@@ -24,6 +24,8 @@ data_load_state = st.text('Loading data...')
 data = load_data(myn_reg)
 data_load_state.text('Loading data...done!')
 
+data['namn'] = data['namn'].str.capitalize
+
 st.subheader('Raw data')
 st.write(data)
 
