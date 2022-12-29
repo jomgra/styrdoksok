@@ -14,13 +14,9 @@ def webload(url):
 	web.encoding = web.apparent_encoding
 	return web.content
 
-data_load_state = st.text('Loading data...')
-
-data = pd.read_excel(webload(url))
+data = pd.read_excel(webload(myn_reg))
 lowercase = lambda x: str(x).lower()
 data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
-
-data_load_state.text('Loading data...done!')
 
 data['namn'] = data['namn'].str.capitalize()
 
