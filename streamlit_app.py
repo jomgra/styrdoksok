@@ -10,7 +10,7 @@ myn_reg = ('https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Stat
 def load_data(url):
 	web = req.get(url)
 	web.encoding = web.apparent_encoding
-	data = pd.read_excel(web)
+	data = pd.read_excel(web.content)
 	lowercase = lambda x: str(x).lower()
 	data.rename(lowercase, axis='columns', inplace=True)
 	return data
