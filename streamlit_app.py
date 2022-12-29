@@ -3,6 +3,7 @@ import pandas as pd
 #import numpy as np
 import requests as req
 import openpyxl
+from bs4 import BeautifulSoup
 
 st.title('Sök instruktioner')
 
@@ -34,4 +35,10 @@ data3 = pd.merge(data1, data2, how='left', left_on = 'organisationsnr', right_on
 st.subheader('Raw data merged')
 st.write(data3)
 
-st.write(webload("https://riksrevisionen.se"))
+sfs = "2007:854"
+
+html = webload("https://rkrattsbaser.gov.se/sfst?bet=" + sfs)
+soup = BeautifulSoup(html, "html5lib")
+instruktion = soup.find("div","body-text").get_text()
+
+st.write(instruktion)
