@@ -8,20 +8,18 @@ st.title('Sök instruktioner')
 
 myn_reg = ('https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statliga%20förvaltningsmyndigheter&format=True')
 
-def load_data(url):
-	data = pd.read_excel(webload(url))
-	lowercase = lambda x: str(x).lower()
-	data.rename(lowercase, axis='columns', inplace=True)
-	return data
-
-@st.cache
+@st.cache(ttl=2592000)
 def webload(url):
 	web = req.get(url)
 	web.encoding = web.apparent_encoding
 	return web.content
 
 data_load_state = st.text('Loading data...')
-data = load_data(myn_reg)
+
+data = pd.read_excel(webload(url))
+	lowercase = lambda x: str(x).lower()
+	data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
+
 data_load_state.text('Loading data...done!')
 
 data['namn'] = data['namn'].str.capitalize()
