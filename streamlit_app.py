@@ -5,9 +5,6 @@ import requests as req
 import openpyxl
 from bs4 import BeautifulSoup
 
-st.title('Sök instruktioner')
-st.text("Här kan du söka i alla myndigheters intruktioner och regleringsbrev.")
-
 myn_scb = ('https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statliga%20förvaltningsmyndigheter&format=True')
 myn_esv = ('https://www.esv.se/myndigheter/ExportExcelAllaArMyndigheter/')
 
@@ -24,6 +21,17 @@ def load_sfs(sfs):
 	r = soup.find("div","body-text").get_text()
 	return r
 
+
+st.title('Sök i myndigheters intruktioner och regleringsbrev')
+st.write("Här kan du söka i alla myndigheters intruktioner och regleringsbrev.")
+
+search = st.text_input(
+        "Sök efter:",
+        label_visibility=st.session_state.visibility,
+        disabled=st.session_state.disabled,
+        placeholder=st.session_state.placeholder,
+        )
+ 
 data1 = pd.read_excel(webload(myn_scb))
 data1.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 data1['namn'] = data1['namn'].str.capitalize()
