@@ -17,6 +17,12 @@ def webload(url):
 	web.encoding = web.apparent_encoding
 	return web.content
 
+@st.cache(persist=True)
+def load_sfs(sfsnr):
+	
+
+
+
 data1 = pd.read_excel(webload(myn_scb))
 data1.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 data1['namn'] = data1['namn'].str.capitalize()
@@ -37,8 +43,6 @@ st.write(data3)
 
 sfs = "2007:854"
 
-html = webload("https://rkrattsbaser.gov.se/sfst?bet=" + sfs)
-soup = BeautifulSoup(html)
-instruktion = soup.find("div","body-text").get_text()
+
 
 st.write(instruktion)
