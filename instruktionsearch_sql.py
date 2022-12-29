@@ -4,7 +4,7 @@ import re, os, hashlib, time, datetime
 import requests as req
 from bs4 import BeautifulSoup
 
-search = "kontroll"
+search = "offentlig kontroll"
 
 def load(url, cache = True):		
 	cpath = "./cache/"
