@@ -27,9 +27,8 @@ st.write("Här kan du söka i alla myndigheters intruktioner och regleringsbrev.
 
 search = st.text_input(
         "Sök efter:",
-        label_visibility=st.session_state.visibility,
-        disabled=st.session_state.disabled,
-        placeholder=st.session_state.placeholder
+        label_visibility="visible",
+        disabled=False
         )
 
 data1 = pd.read_excel(webload(myn_scb))
