@@ -38,7 +38,7 @@ st.write(data3)
 sfs = "2007:854"
 
 html = webload("https://rkrattsbaser.gov.se/sfst?bet=" + sfs)
-soup = BeautifulSoup(html, "html5lib")
+soup = BeautifulSoup(html, "lxml")
 instruktion = soup.find("div","body-text").get_text()
 
 st.write(instruktion)
