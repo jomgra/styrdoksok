@@ -1,12 +1,14 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
+#import numpy as np
 import requests as req
 import openpyxl
 
 st.title('Sök instruktioner')
 
-myn_reg = ('https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statliga%20förvaltningsmyndigheter&format=True')
+myn_scb = ('https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statliga%20förvaltningsmyndigheter&format=True')
+
+myn_esv = ('https://www.esv.se/myndigheter/ExportExcelAllaArMyndigheter/')
 
 @st.cache(ttl=2592000)
 def webload(url):
@@ -14,13 +16,16 @@ def webload(url):
 	web.encoding = web.apparent_encoding
 	return web.content
 
-data = pd.read_excel(webload(myn_reg))
-lowercase = lambda x: str(x).lower()
+data = pd.read_excel(webload(myn_scb))
 data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
-
 data['namn'] = data['namn'].str.capitalize()
 
-st.subheader('Raw data')
+st.subheader('Raw data SCB')
 st.write(data)
 
+data = pd.read_excel(webload(myn_esv))
+data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
+
+st.subheader('Raw data ESV')
+st.write(data)
 
