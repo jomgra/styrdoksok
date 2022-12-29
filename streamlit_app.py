@@ -17,8 +17,8 @@ def webload(url):
 data_load_state = st.text('Loading data...')
 
 data = pd.read_excel(webload(url))
-	lowercase = lambda x: str(x).lower()
-	data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
+lowercase = lambda x: str(x).lower()
+data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 
 data_load_state.text('Loading data...done!')
 
