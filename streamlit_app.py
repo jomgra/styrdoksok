@@ -22,8 +22,8 @@ def load_sfs(sfs):
 	return r
 
 
-st.title('Sök i myndigheters intruktioner och regleringsbrev')
-st.write("Här kan du söka i alla myndigheters intruktioner och regleringsbrev.")
+st.title('Sök i instruktioner och regleringsbrev')
+st.write("Här kan du söka i alla Svenska myndigheters aktuella instruktioner och regleringsbrev.")
 
 search = st.text_input(
 	"Sök efter:",
@@ -44,4 +44,4 @@ data2.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 data3 = pd.merge(data1, data2, how='left', left_on = 'organisationsnr', right_on = 'orgnr')
 
 if search:
-	st.write(load_sfs("2007:854"))
+	output.text(load_sfs("2007:854"))
