@@ -18,7 +18,7 @@ def webload(url):
 
 data1 = pd.read_excel(webload(myn_scb))
 data1.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
-data1['namn'] = data['namn'].str.capitalize()
+data1['namn'] = data1['namn'].str.capitalize()
 
 st.subheader('Raw data SCB')
 st.write(data1)
