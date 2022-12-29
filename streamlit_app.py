@@ -16,16 +16,20 @@ def webload(url):
 	web.encoding = web.apparent_encoding
 	return web.content
 
-data = pd.read_excel(webload(myn_scb))
-data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
-data['namn'] = data['namn'].str.capitalize()
+data1 = pd.read_excel(webload(myn_scb))
+data1.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
+data1['namn'] = data['namn'].str.capitalize()
 
 st.subheader('Raw data SCB')
-st.write(data)
+st.write(data1)
 
-data = pd.read_excel(webload(myn_esv))
-data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
+data2 = pd.read_excel(webload(myn_esv))
+data2.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 
 st.subheader('Raw data ESV')
-st.write(data)
+st.write(data2)
 
+data3 = pd.merge(data1, data2, how='inner', left_on = 'organisationsnr', right_on = 'orgnr')
+
+st.subheader('Raw data merged')
+st.write(data3)
