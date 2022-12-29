@@ -44,4 +44,4 @@ data2.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 data3 = pd.merge(data1, data2, how='left', left_on = 'organisationsnr', right_on = 'orgnr')
 
 if search:
-	output.text(load_sfs("2007:854"))
+	output.text(load_sfs("2007:854").count(search))
