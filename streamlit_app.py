@@ -29,9 +29,9 @@ search = st.text_input(
         "Sök efter:",
         label_visibility=st.session_state.visibility,
         disabled=st.session_state.disabled,
-        placeholder=st.session_state.placeholder,
+        placeholder=st.session_state.placeholder
         )
- 
+
 data1 = pd.read_excel(webload(myn_scb))
 data1.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 data1['namn'] = data1['namn'].str.capitalize()
