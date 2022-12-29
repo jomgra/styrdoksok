@@ -18,10 +18,11 @@ def webload(url):
 	return web.content
 
 @st.cache(persist=True)
-def load_sfs(sfsnr):
-	
-
-
+def load_sfs(sfs):
+	html = webload("https://rkrattsbaser.gov.se/sfst?bet=" + sfs)
+	soup = BeautifulSoup(html)
+	r = soup.find("div","body-text").get_text()
+	return r
 
 data1 = pd.read_excel(webload(myn_scb))
 data1.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
@@ -41,8 +42,4 @@ data3 = pd.merge(data1, data2, how='left', left_on = 'organisationsnr', right_on
 st.subheader('Raw data merged')
 st.write(data3)
 
-sfs = "2007:854"
-
-
-
-st.write(instruktion)
+st.write(load_sfs("2007:854"))
