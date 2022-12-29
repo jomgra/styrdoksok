@@ -7,7 +7,8 @@ st.title('Sök instruktioner')
 myn_reg = ('https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statliga%20förvaltningsmyndigheter&format=True')
 
 def load_data(url):
-    data = pd.read_excel(url,encoding="utf-8")
+    data = pd.read_excel(url, encoding=
+    'utf-8')
     lowercase = lambda x: str(x).lower()
     data.rename(lowercase, axis='columns', inplace=True)
     return data
