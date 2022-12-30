@@ -1,13 +1,13 @@
 import streamlit as st
 import pandas as pd
+#import numpy as np
 import requests as req
 import openpyxl
 from bs4 import BeautifulSoup
 import time
 
-myndighetregistret_url = 'https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statliga%20förvaltningsmyndigheter&format=True'
-
-statsliggaren_url = "https://www.esv.se/statsliggaren/"
+myn_scb = ('https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statliga%20förvaltningsmyndigheter&format=True')
+myn_esv = ('https://www.esv.se/myndigheter/ExportExcelAllaArMyndigheter/')
 
 @st.cache(ttl=2592000)
 def webload(url):
@@ -23,23 +23,28 @@ def load_sfs(sfs):
 	r = soup.find("div","body-text").get_text()
 	return r
 
-# ================================
-	
+
 st.title('Sök i instruktioner och regleringsbrev')
 st.write("Här kan du söka i alla svenska förvaltningsmyndigheters aktuella instruktioner och regleringsbrev.")
 
 search = st.text_input(
 	"Sök efter:",
-	label_visibility="visible"
+	label_visibility="visible",
+	disabled=False
 	)
 
 ph = st.empty()
 result = ph.container()
 result.markdown('*Inga sökresultat*')
 
-data = pd.read_excel(webload(myndighetregistret_url))
-data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
-data['namn'] = data['namn'].str.capitalize()
+scb_data = pd.read_excel(webload(myn_scb))
+scb_data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
+scb_data['namn'] = scb_data['namn'].str.capitalize()
+
+esv_data = pd.read_excel(webload(myn_esv))
+esv_data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
+
+data = pd.merge(scb_data, esv_data, how='left', left_on = 'organisationsnr', right_on = 'orgnr')
 
 data = data.reset_index()
 
