@@ -9,7 +9,6 @@ myndighetregistret_url = 'https://myndighetsregistret.scb.se/myndighet/download?
 
 statsliggaren_url = "https://www.esv.se/statsliggaren/"
 
-@st.cache(ttl=2592000)
 def webload(url):
 	web = req.get(url)
 	web.encoding = web.apparent_encoding
@@ -22,7 +21,8 @@ def load_sfs(sfs):
 	soup = BeautifulSoup(html)
 	r = soup.find("div","body-text").get_text()
 	return r
-	
+
+@st.cache(persist=True)
 def load_rb(url):
 	time.sleep(3)
 	html = webload(url)
