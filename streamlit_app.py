@@ -48,7 +48,7 @@ soup = BeautifulSoup(esv)
 links = soup.select("a[href*=SenasteRegleringsbrev]")
 
 for link in links:
-	data.loc[data['namn'] == link.get_text().strip().capitalize(), 'rb'] = link.href
+	data.loc[data['namn'] == link.get_text().strip().capitalize(), 'rb'] = link.get("href")
 	
 st.write(data)
 	
