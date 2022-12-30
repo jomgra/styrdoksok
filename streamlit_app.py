@@ -46,7 +46,7 @@ data = data.reset_index()
 esv = webload(statsliggaren_url)
 soup = BeautifulSoup(esv)
 opt = soup.select("a[href*=SenasteRegleringsbrev]")
-st.write(opt)
+st.write(opt.get_text())
 
 	
 	
