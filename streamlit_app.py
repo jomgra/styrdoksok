@@ -33,7 +33,6 @@ search = st.text_input(
 	disabled=False
 	)
 
-st.write("Sökresultat:")
 ph = st.empty()
 result = ph.container()
 result.markdown('*Inga sökresultat*')
@@ -58,5 +57,6 @@ if search:
 			sfs = row['sfs'].strip()
 			hits = load_sfs(sfs).lower().count(search.lower())
 			if hits > 0:
-				result.write(row['namn'])
+				result.markdown(f'**row{['namn']}**')
+				result.markdown(f' {hits} träffar i intruktionen {sfs}')
 			
