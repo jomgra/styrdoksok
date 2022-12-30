@@ -51,7 +51,7 @@ if search:
 	for index, row in data3.iterrows():
 		nullchk = data3.loc[index].isnull()
 		if not nullchk['sfs']:
-			sfs = str().strip()
+			sfs = row['sfs'].strip()
 			#st.write(data3.loc[index].isnull())
 			hits = load_sfs(sfs).lower().count(search.lower())
 			st.write(row['namn'], sfs, ":", hits)
