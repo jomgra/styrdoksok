@@ -49,7 +49,7 @@ data3 = data3.reset_index()
 
 if search:
 	for index, row in data3.iterrows():
-		sfs = row['sfs'].str.strip()
+		sfs = str(row['sfs']).strip()
 		if not sfs == "":
 			hits = load_sfs(sfs).lower().count(search.lower())
 			st.write(row['namn'], sfs, ":", hits)
