@@ -48,9 +48,9 @@ soup = BeautifulSoup(esv)
 links = soup.select("a[href*=SenasteRegleringsbrev]")
 
 for link in links:
-	st.write(link.get_text().strip())
-
+	data.loc[data['namn'] == link.get_text().strip(), 'rb'] = link.href
 	
+st.write(data)
 	
 if search:
 	ph.empty()
