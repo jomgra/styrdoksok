@@ -53,10 +53,11 @@ if search:
 	result=ph.container()
 	for index, row in data.iterrows():
 		nullcheck = data.loc[index].isnull()
+		myndighet = row['namn']
 		if not nullcheck['sfs']:
 			sfs = row['sfs'].strip()
 			hits = load_sfs(sfs).lower().count(search.lower())
 			if hits > 0:
-				result.markdown(f'**{row['namn']}**')
+				result.markdown(f'**{myndighet}**')
 				result.markdown(f' {hits} träffar i intruktionen [{sfs}](https://rkrattsbaser.gov.se/sfst?bet={sfs})')
 			
