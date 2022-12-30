@@ -43,12 +43,12 @@ data['namn'] = data['namn'].str.capitalize()
 
 data = data.reset_index()
 
-esv = webload(statsliggaren_url)
-soup = BeautifulSoup(esv)
+soup = BeautifulSoup(webload(statsliggaren_url))
 links = soup.select("a[href*=SenasteRegleringsbrev]")
 
 for link in links:
-	data.loc[data['namn'] == link.get_text().strip().capitalize(), 'rb'] = link.get("href")
+	namn = link.get_text().strip().capitalize()
+	data.loc[data['namn'] == namn, 'rb'] = 'https://www.esv.se' + link.get("href")
 	
 st.write(data)
 	
