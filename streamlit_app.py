@@ -9,6 +9,7 @@ myndighetregistret_url = 'https://myndighetsregistret.scb.se/myndighet/download?
 
 statsliggaren_url = "https://www.esv.se/statsliggaren/"
 
+@st.cache(ttl=2592000)
 def webload(url):
 	web = req.get(url)
 	web.encoding = web.apparent_encoding
