@@ -15,6 +15,7 @@ def webload(url):
 	web.encoding = web.apparent_encoding
 	return web.content
 
+@st.cache(persist=True)
 def load_sfs(sfs):
 	time.sleep(3)
 	html = webload("https://rkrattsbaser.gov.se/sfst?bet=" + sfs)
