@@ -57,6 +57,6 @@ if search:
 			sfs = row['sfs'].strip()
 			hits = load_sfs(sfs).lower().count(search.lower())
 			if hits > 0:
-				result.markdown(f'**row{['namn']}**')
-				result.markdown(f' {hits} träffar i intruktionen {sfs}')
+				result.markdown(f'**{row['namn']}**')
+				result.markdown(f' {hits} träffar i intruktionen [{sfs}](https://rkrattsbaser.gov.se/sfst?bet={sfs})')
 			
