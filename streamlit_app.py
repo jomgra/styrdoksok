@@ -25,7 +25,7 @@ def load_sfs(sfs):
 
 
 st.title('Sök i instruktioner och regleringsbrev')
-st.write("Här kan du söka i alla Svenska myndigheters aktuella instruktioner och regleringsbrev.")
+st.write("Här kan du söka i alla svenska förvaltningsmyndigheters aktuella instruktioner och regleringsbrev.")
 
 search = st.text_input(
 	"Sök efter:",
@@ -36,21 +36,21 @@ search = st.text_input(
 st.write("Sökresultat:")
 output = st.text("inget")
 
-data1 = pd.read_excel(webload(myn_scb))
-data1.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
-data1['namn'] = data1['namn'].str.capitalize()
+scb_data = pd.read_excel(webload(myn_scb))
+scb_data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
+scb_data['namn'] = scb_data['namn'].str.capitalize()
 
-data2 = pd.read_excel(webload(myn_esv))
-data2.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
+esv_data = pd.read_excel(webload(myn_esv))
+esv_data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 
-data3 = pd.merge(data1, data2, how='left', left_on = 'organisationsnr', right_on = 'orgnr')
+data = pd.merge(scb_data, esv_data, how='left', left_on = 'organisationsnr', right_on = 'orgnr')
 
-data3 = data3.reset_index()
+data = data.reset_index()
 
 if search:
-	for index, row in data3.iterrows():
-		nullchk = data3.loc[index].isnull()
-		if not nullchk['sfs']:
+	for index, row in data.iterrows():
+		nullcheck = data.loc[index].isnull()
+		if not nullcheck['sfs']:
 			sfs = row['sfs'].strip()
 			hits = load_sfs(sfs).lower().count(search.lower())
 			if hits > 0:
