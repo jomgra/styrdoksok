@@ -43,6 +43,13 @@ data['namn'] = data['namn'].str.capitalize()
 
 data = data.reset_index()
 
+esv = webload(statsliggaren_url)
+soup = BeautifulSoup(esv)
+opt = soup.find_all("option")
+st.write(opt)
+
+	
+	
 if search:
 	ph.empty()
 	result=ph.container()
