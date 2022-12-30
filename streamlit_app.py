@@ -51,6 +51,7 @@ if search:
 	for index, row in data3.iterrows():
 		sfs = str(row['sfs']).replace(" ", "")
 		if not sfs == "":
+			st.write("sfs:", sfs)
 			hits = load_sfs(sfs).lower().count(search.lower())
 			st.write(row['namn'], sfs, ":", hits)
 			
