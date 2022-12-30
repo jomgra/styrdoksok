@@ -47,7 +47,7 @@ data3 = pd.merge(data1, data2, how='left', left_on = 'organisationsnr', right_on
 
 data3 = data3.reset_index()
 for index, row in data3.iterrows():
-	if not row['sfs'].strip() = "":
+	if not row['sfs'].strip() == "":
 		hits = load_sfs("2007:854").lower().count(search.lower())
 		st.write(row['namn'], row['sfs'], ":", hits)
 		
