@@ -22,6 +22,13 @@ def load_sfs(sfs):
 	soup = BeautifulSoup(html)
 	r = soup.find("div","body-text").get_text()
 	return r
+	
+def load_rb(url):
+	time.sleep(3)
+	html = webload(url)
+	soup = BeautifulSoup(html)
+	r = soup.find("section", {"id": "letter"})
+	return r
 
 # ================================
 	
@@ -60,8 +67,11 @@ if search:
 		myndighet = row['namn']
 		if not nullcheck['sfs']:
 			sfs = row['sfs'].strip()
-			hits = load_sfs(sfs).lower().count(search.lower())
-			if hits > 0:
-				result.markdown(f'**{myndighet}**')
-				result.caption(f'- {hits} träffar i instruktionen ([SFS {sfs}](https://rkrattsbaser.gov.se/sfst?bet={sfs}))')
+			sfs_hits = load_sfs(sfs).lower().count(search.lower())
+		if not nullcheck['rb']:
+			rb_hits = load_rb(row['rb']).lower().count(search.lower())
 			
+		if sfs_hits > 0 or rb_hits > 0:
+			result.markdown(f'**{myndighet}**')
+			result.caption(f'- {sfs_hits} träffar i instruktionen ([SFS {sfs}](https://rkrattsbaser.gov.se/sfst?bet={sfs}))')
+			result.caption(f'- {rb_hits} träffar i instruktionen ([rb]({sfs}))')
