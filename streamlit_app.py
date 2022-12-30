@@ -34,7 +34,8 @@ search = st.text_input(
 	)
 
 st.write("Sökresultat:")
-result = st.container()
+ph = st.empty()
+result = ph.container()
 result.markdown('*Inga sökresultat*')
 
 scb_data = pd.read_excel(webload(myn_scb))
@@ -49,7 +50,8 @@ data = pd.merge(scb_data, esv_data, how='left', left_on = 'organisationsnr', rig
 data = data.reset_index()
 
 if search:
-	result.empty()
+	ph.empty()
+	result=ph.container()
 	for index, row in data.iterrows():
 		nullcheck = data.loc[index].isnull()
 		if not nullcheck['sfs']:
