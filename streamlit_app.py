@@ -57,8 +57,6 @@ for link in links:
 	namn = link.get_text().strip().capitalize()
 	data.loc[data['namn'] == namn, 'rb'] = 'https://www.esv.se' + link.get("href")
 	
-st.write(data)
-	
 if search:
 	ph.empty()
 	result=ph.container()
