@@ -60,7 +60,8 @@ for link in links:
 if search:
 	ph.empty()
 	result=ph.container()
-	sfs_hits, rb_hits = 0
+	sfs_hits = 0
+	rb_hits = 0
 	for index, row in data.iterrows():
 		nullcheck = data.loc[index].isnull()
 		myndighet = row['namn']
