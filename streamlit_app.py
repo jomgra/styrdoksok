@@ -59,5 +59,5 @@ if search:
 			hits = load_sfs(sfs).lower().count(search.lower())
 			if hits > 0:
 				result.markdown(f'**{myndighet}**')
-				result.markdown(f'* {hits} träffar i instruktionen ([SFS {sfs}](https://rkrattsbaser.gov.se/sfst?bet={sfs}))')
+				result.write(f'- {hits} träffar i instruktionen ([SFS {sfs}](https://rkrattsbaser.gov.se/sfst?bet={sfs}))')
 			
