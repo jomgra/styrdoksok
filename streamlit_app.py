@@ -49,7 +49,7 @@ data3 = data3.reset_index()
 
 if search:
 	for index, row in data3.iterrows():
-		if not row['sfs'].isnull():
+		if not data3.loc[index]['sfs'].isnull():
 			sfs = str().strip()
 			st.write("sfs:", sfs)
 			hits = load_sfs(sfs).lower().count(search.lower())
