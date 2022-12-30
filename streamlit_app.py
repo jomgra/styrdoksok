@@ -55,5 +55,5 @@ if search:
 			sfs = row['sfs'].strip()
 			hits = load_sfs(sfs).lower().count(search.lower())
 			if hits > 0:
-				result.write(row['namn'], sfs, ":", hits)
+				result.write(row['namn'])
 			
