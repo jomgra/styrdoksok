@@ -45,8 +45,10 @@ data = data.reset_index()
 
 esv = webload(statsliggaren_url)
 soup = BeautifulSoup(esv)
-opt = soup.select("a[href*=SenasteRegleringsbrev]")
-st.write(opt.get_text())
+links = soup.select("a[href*=SenasteRegleringsbrev]")
+
+for link in links:
+	st.write(link.get_text().strip())
 
 	
 	
