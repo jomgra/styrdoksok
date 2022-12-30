@@ -4,6 +4,7 @@ import pandas as pd
 import requests as req
 import openpyxl
 from bs4 import BeautifulSoup
+import time
 
 myn_scb = ('https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statliga%20förvaltningsmyndigheter&format=True')
 myn_esv = ('https://www.esv.se/myndigheter/ExportExcelAllaArMyndigheter/')
@@ -16,6 +17,7 @@ def webload(url):
 
 @st.cache(persist=True)
 def load_sfs(sfs):
+	time.sleep(3)
 	html = webload("https://rkrattsbaser.gov.se/sfst?bet=" + sfs)
 	soup = BeautifulSoup(html)
 	r = soup.find("div","body-text").get_text()
@@ -43,9 +45,9 @@ data2.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 
 data3 = pd.merge(data1, data2, how='left', left_on = 'organisationsnr', right_on = 'orgnr')
 
-if search:	output.text(load_sfs("2007:854").lower().count(search.lower()))
-
 data3 = data3.reset_index()
 for index, row in data3.iterrows():
-    st.write(row['namn'], row['sfs'])
+	if not row['sfs'].strip() = "":
+		hits = load_sfs("2007:854").lower().count(search.lower())
+		st.write(row['namn'], row['sfs'], ":", hits)
 		
