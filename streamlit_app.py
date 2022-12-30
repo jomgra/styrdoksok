@@ -46,8 +46,11 @@ data2.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 data3 = pd.merge(data1, data2, how='left', left_on = 'organisationsnr', right_on = 'orgnr')
 
 data3 = data3.reset_index()
-for index, row in data3.iterrows():
-	if not row['sfs'].strip() == "":
-		hits = load_sfs("2007:854").lower().count(search.lower())
-		st.write(row['namn'], row['sfs'], ":", hits)
-		
+
+if search:
+	for index, row in data3.iterrows():
+		sfs = row['sfs'].str.strip()
+		if not sfs == "":
+			hits = load_sfs(sfs).lower().count(search.lower())
+			st.write(row['namn'], sfs, ":", hits)
+			
