@@ -27,7 +27,7 @@ def load_rb(url):
 	time.sleep(3)
 	html = webload(url)
 	soup = BeautifulSoup(html)
-	r = soup.find("section", {"id": "letter"})
+	r = soup.find("section", {"id": "letter"}).get_text()
 	return r
 
 # ================================
