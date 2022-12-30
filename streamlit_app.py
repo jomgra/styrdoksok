@@ -15,7 +15,6 @@ def webload(url):
 	web.encoding = web.apparent_encoding
 	return web.content
 
-@st.cache(persist=True)
 def load_sfs(sfs):
 	time.sleep(3)
 	html = webload("https://rkrattsbaser.gov.se/sfst?bet=" + sfs)
@@ -34,6 +33,9 @@ search = st.text_input(
 	)
 
 st.write("Sökresultat:")
+container = st.container()
+container.write('not cool')
+container.markdown('**cool**')
 output = st.text("inget")
 
 data1 = pd.read_excel(webload(myn_scb))
