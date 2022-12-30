@@ -4,4 +4,3 @@ numpy
 requests
 openpyxl
 bs4
-time
