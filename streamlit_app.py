@@ -5,9 +5,9 @@ import openpyxl
 from bs4 import BeautifulSoup
 import time
 
-myndighetregistret_url = 'https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statliga%20förvaltningsmyndigheter&format=True'
+scb_url = 'https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statliga%20förvaltningsmyndigheter&format=True'
 
-statsliggaren_url = "https://www.esv.se/statsliggaren/"
+esv_url = "https://www.esv.se/statsliggaren/"
 
 @st.cache(ttl=2592000)
 def webload(url):
@@ -48,13 +48,13 @@ ph = st.empty()
 result = ph.container()
 result.markdown('*Inga sökresultat*')
 
-data = pd.read_excel(webload(myndighetregistret_url))
+data = pd.read_excel(webload(scb_url))
 data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 data['namn'] = data['namn'].str.capitalize()
 
 data = data.reset_index()
 
-soup = BeautifulSoup(webload(statsliggaren_url))
+soup = BeautifulSoup(webload(esv_url))
 links = soup.select("a[href*=SenasteRegleringsbrev]")
 
 for link in links:
@@ -77,7 +77,7 @@ if search:
 			rb_hits = load_rb(rb).lower().count(search.lower())
 			
 		if sfs_hits > 0 or rb_hits > 0:
-			result.markdown(f'**{myndighet}**')
+			result.markdown('**" + row['namn'] + '**')
 			if sfs_hits > 0:
 				result.caption(f'- {sfs_hits} träff(ar) i instruktionen ([SFS {sfs}](https://rkrattsbaser.gov.se/sfst?bet={sfs}))')
 			if rb_hits > 0:
