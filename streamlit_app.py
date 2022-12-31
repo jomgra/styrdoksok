@@ -9,7 +9,7 @@ scb_url = 'https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statl
 
 esv_url = "https://www.esv.se/statsliggaren/"
 
-@st.cache(ttl=2592000)
+@st.cache(persist=True)
 def webload(url):
 	web = req.get(url)
 	web.encoding = web.apparent_encoding
@@ -51,12 +51,10 @@ result.markdown('*Inga sökresultat*')
 data = pd.read_excel(webload(scb_url))
 data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 data['namn'] = data['namn'].str.capitalize()
-
 data = data.reset_index()
 
 soup = BeautifulSoup(webload(esv_url))
 links = soup.select("a[href*=SenasteRegleringsbrev]")
-
 for link in links:
 	namn = link.get_text().strip().capitalize()
 	data.loc[data['namn'] == namn, 'rb'] = 'https://www.esv.se' + link.get("href")
@@ -68,7 +66,6 @@ if search:
 	rb_hits = 0
 	for index, row in data.iterrows():
 		nullcheck = data.loc[index].isnull()
-		myndighet = row['namn']
 		if not nullcheck['sfs']:
 			sfs = row['sfs'].strip()
 			sfs_hits = load_sfs(sfs).lower().count(search.lower())
