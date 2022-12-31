@@ -79,6 +79,6 @@ if search:
 		if sfs_hits > 0 or rb_hits > 0:
 			result.markdown(f'**{myndighet}**')
 			if sfs_hits > 0:
-				result.caption(f'- {sfs_hits} träffar i instruktionen ([SFS {sfs}](https://rkrattsbaser.gov.se/sfst?bet={sfs}))')
+				result.caption(f'- {sfs_hits} träff(ar) i instruktionen ([SFS {sfs}](https://rkrattsbaser.gov.se/sfst?bet={sfs}))')
 			if rb_hits > 0:
-				result.caption(f'- {rb_hits} träffar i regleringsbrevet ([rb]({rb}))')
+				result.caption(f'- {rb_hits} träff(ar) i senaste [regleringsbrevet]({rb})')
