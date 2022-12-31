@@ -77,7 +77,7 @@ if search:
 			rb_hits = load_rb(rb).lower().count(search.lower())
 			
 		if sfs_hits > 0 or rb_hits > 0:
-			result.markdown('**" + row['namn'] + '**')
+			result.markdown('**' + row['namn'] + '**')
 			if sfs_hits > 0:
 				result.caption(f'- {sfs_hits} träff(ar) i instruktionen ([SFS {sfs}](https://rkrattsbaser.gov.se/sfst?bet={sfs}))')
 			if rb_hits > 0:
