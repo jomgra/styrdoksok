@@ -18,7 +18,7 @@ def webload(url):
 @st.cache(persist=True)
 def load_sfs(sfs):
 	time.sleep(3)
-	html = webload("https://rkrattsbaser.gov.se/sfst?bet=" + sfs)
+	html = webload("https://rkrattsbaser.gov.se/sfst?bet=" + str(sfs))
 	soup = BeautifulSoup(html)
 	n = soup.find("span","bold")
 	t = soup.find("div","body-text")
@@ -34,7 +34,7 @@ def load_sfs(sfs):
 @st.cache(persist=True)
 def load_rb(url):
 	time.sleep(3)
-	html = webload(url)
+	html = webload(str(url))
 	soup = BeautifulSoup(html)
 	n = soup.find("div",{"id": "BrevInledandeText_Rubrik"})
 	t = soup.find("section", {"id": "letter"})
