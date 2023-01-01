@@ -62,9 +62,9 @@ for link in links:
 if search:
 	ph.empty()
 	result=ph.container()
+	sfs_hits = 0
+	rb_hits = 0
 	for index, row in data.iterrows():
-		sfs_hits = 0
-		rb_hits = 0
 		nullcheck = data.loc[index].isnull()
 		if not nullcheck['sfs']:
 			sfs = row['sfs'].strip()
