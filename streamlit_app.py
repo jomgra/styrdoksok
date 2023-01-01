@@ -60,6 +60,7 @@ for link in links:
 	data.loc[data['namn'] == namn, 'rb'] = 'https://www.esv.se' + link.get("href")
 	
 if search:
+	hits = 0
 	ph.empty()
 	result=ph.container()
 	for index, row in data.iterrows():
@@ -74,10 +75,14 @@ if search:
 			rb_hits = load_rb(rb).lower().count(search.lower())
 			
 		if sfs_hits > 0 or rb_hits > 0:
+			hits += 1
 			result.markdown('**' + row['namn'] + '**')
 			if sfs_hits > 0:
 				result.caption(f'- {sfs_hits} träff(ar) i instruktionen ([SFS {sfs}](https://rkrattsbaser.gov.se/sfst?bet={sfs}))')
 			if rb_hits > 0:
 				result.caption(f'- {rb_hits} träff(ar) i senaste [regleringsbrevet]({rb})')
+				
+	if hits == 0:
+		result.markdown('*Inga sökresultat*')
 	exp = result.expander('Källor')
 	exp.write('text')
