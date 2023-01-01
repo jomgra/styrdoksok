@@ -18,8 +18,7 @@ def webload(url):
 
 @st.cache(persist=True)
 def load_doc(url, typ):
-	if not validators.url(str(url)):
-		st.write('.' + str(url) + '.')
+	if not validators.url(url):
 		return None
 	time.sleep(3)
 	html = webload(url)
@@ -79,7 +78,7 @@ if search:
 		
 		sfs = "https://rkrattsbaser.gov.se/sfst?bet=" + str(row['sfs']).strip()
 		r = load_doc(sfs, "sfs")
-		result.write(r)
+		result.markdown(r)
 		if not r is None:
 			sfs_hits = r['text'].lower().count(search.lower())
 		
