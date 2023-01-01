@@ -46,7 +46,7 @@ def load_mr():
 	r['namn'] = r['namn'].str.capitalize()
 	r['sfs'] = "https://rkrattsbaser.gov.se/sfst?bet=" + r['sfs'].astype(str)
 	r['cnamn'] = r.loc[:, 'namn']
-	r[r['cnamn'].str.contains("Länsstyrelsen"), 'cnamn'] = 'Länsstyrelserna'
+	r.loc[r['cnamn'].str.contains("Länsstyrelsen"), 'cnamn'] = 'Länsstyrelserna'
 	r = r.reset_index()
 	
 	# Läs in ESVs myndighetslista
