@@ -44,12 +44,14 @@ def load_mr():
 	r.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 	r['namn'] = r['namn'].str.capitalize()
 	r['sfs'] = "https://rkrattsbaser.gov.se/sfst?bet=" + r['sfs'].astype(str)
+	r['cnamn'] = r.loc[:, 'namn']
+	r[df['cnamn'].str.contains("Länsstyrelsen")] = 'Länsstyrelserna'
 	r = r.reset_index()
 	soup = BeautifulSoup(webload(esv_url))
 	links = soup.select("a[href*=SenasteRegleringsbrev]")
 	for link in links:
 		namn = link.get_text().strip().capitalize()
-		r.loc[r['namn'] == namn, 'rb'] = 'https://www.esv.se' + link.get("href")	
+		r.loc[r['cnamn'] == namn, 'rb'] = 'https://www.esv.se' + link.get("href")	
 	return r
 
 # ================================
