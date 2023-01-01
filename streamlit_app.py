@@ -19,16 +19,16 @@ def webload(url):
 @st.cache(persist=True)
 def load_doc(url, typ):
 	if not validators.url(str(url)):
-		st.write('.' + url + '.')
+		st.write('.' + str(url) + '.')
 		return None
 	time.sleep(3)
 	html = webload(url)
 	soup = BeautifulSoup(html)
 	
-	if typ == "rb":
+	if typ == 'rb':
 		n = soup.find("span","bold")
 		t = soup.find("div","body-text")
-	elif typ == "sfs":
+	elif typ == 'sfs':
 		n = soup.find("div",{"id": "BrevInledandeText_Rubrik"})
 		t = soup.find("section", {"id": "letter"})		
 	
