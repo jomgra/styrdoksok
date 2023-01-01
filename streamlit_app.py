@@ -79,4 +79,5 @@ if search:
 				result.caption(f'- {sfs_hits} träff(ar) i instruktionen ([SFS {sfs}](https://rkrattsbaser.gov.se/sfst?bet={sfs}))')
 			if rb_hits > 0:
 				result.caption(f'- {rb_hits} träff(ar) i senaste [regleringsbrevet]({rb})')
-	exp = result.expander("Källor")
+	exp = result.expander('Källor')
+	exp.write('text')
