@@ -87,18 +87,18 @@ if search:
 		sfs = row['sfs']
 		r = load_doc(sfs, "sfs")
 		if not r is None:
-			source.extend = { 'sfs': r['namn'] }
+			source['sfs'] = r['namn']
 			sfs_hits = r['text'].lower().count(search.lower())
 		else:
-			source = { 'sfs': '*Saknas*' }
+			source['sfs'] = '*Saknas*'
 			
 		rb = row['rb']
 		r = load_doc(rb, "rb")
 		if not r is None:
-			source.extend = { 'rb': r['namn'] }
+			source['rb'] = r['namn']
 			rb_hits = r['text'].lower().count(search.lower())
 		else:
-			source = { 'rb': '*Saknas*' }
+			source['rb'] = '*Saknas*'
 			
 		if sfs_hits > 0 or rb_hits > 0:
 			hits += 1
@@ -114,7 +114,7 @@ if search:
 	exp = result.expander('Genomsökta källor')
 	exp.write('Sökningen sker maskinellt i Regeringskansliets rättdatabas samt Ekonomistyrningsverkets statsliggare. Nedan redovisas  styrdokumenten som ingick i sökingen.')
 	for s in sources:
-		exp.write(s)
-		#exp.caption("Instruktion: " + s['sfs'])
-		#exp.caption("Regleringsbrev: " + s['rb'])
+		exp.write(s['namn'])
+		exp.caption("Instruktion: " + s['sfs'])
+		exp.caption("Regleringsbrev: " + s['rb'])
 		
