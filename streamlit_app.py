@@ -21,8 +21,8 @@ def load_sfs(sfs):
 	html = webload("https://rkrattsbaser.gov.se/sfst?bet=" + sfs)
 	soup = BeautifulSoup(html)
 	r = {
-		namn: soup.find("span","bold").get_text(),
-		text: soup.find("div","body-text").get_text()
+		'namn': soup.find("span","bold").get_text(),
+		'text': soup.find("div","body-text").get_text()
 	
 	}
 	return r
