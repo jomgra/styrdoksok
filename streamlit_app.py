@@ -49,6 +49,7 @@ def load_mr():
 	for link in links:
 		namn = link.get_text().strip().capitalize()
 		r.loc[r['namn'] == namn, 'rb'] = 'https://www.esv.se' + link.get("href")
+	
 	return r
 
 # ================================
@@ -71,6 +72,8 @@ if search:
 	ph.empty()
 	result=ph.container()
 	df = load_mr()
+	
+	result.write(df)
 			
 	for index, row in df.iterrows():
 		sfs_hits, rb_hits = 0, 0
