@@ -16,28 +16,18 @@ def webload(url):
 	return web.content
 
 @st.cache(persist=True)
-def load_sfs(sfs):
+def load_doc(url, typ):
 	time.sleep(3)
-	html = webload("https://rkrattsbaser.gov.se/sfst?bet=" + str(sfs))
+	html = webload(url)
 	soup = BeautifulSoup(html)
-	n = soup.find("span","bold")
-	t = soup.find("div","body-text")
 	
-	if n is None or t is None:
-		return None
-	else:
-		return {
-			'namn': n.get_text(),
-			'text': t.get_text()
-			}
-
-@st.cache(persist=True)
-def load_rb(url):
-	time.sleep(3)
-	html = webload(str(url))
-	soup = BeautifulSoup(html)
-	n = soup.find("div",{"id": "BrevInledandeText_Rubrik"})
-	t = soup.find("section", {"id": "letter"})
+	if typ == "rb":
+		n = soup.find("span","bold")
+		t = soup.find("div","body-text")
+	elif typ == "sfs":
+		n = soup.find("div",{"id": "BrevInledandeText_Rubrik"})
+		t = soup.find("section", {"id": "letter"})		
+	
 	if n is None or t is None:
 		return None
 	else:
@@ -84,13 +74,14 @@ if search:
 	for index, row in df.iterrows():
 		sfs_hits, rb_hits = 0, 0
 		sources.append(row['namn'])
-		sfs = row['sfs'].strip()
-		r = load_sfs(sfs)
+		
+		sfs = "https://rkrattsbaser.gov.se/sfst?bet=" + str(row['sfs']).strip()
+		r = load_doc(sfs, "sfs")
 		if not r is None:
 			sfs_hits = r['text'].lower().count(search.lower())
 		
 		rb = row['rb']
-		r = load_rb(rb)
+		r = load_doc(rb, "rb")
 		if not r is None:
 			rb_hits = r['text'].lower().count(search.lower())
 			
@@ -98,7 +89,7 @@ if search:
 			hits += 1
 			result.markdown('**' + row['namn'] + '**')
 			if sfs_hits > 0:
-				result.caption(f'- {sfs_hits} träff(ar) i instruktionen ([SFS {sfs}](https://rkrattsbaser.gov.se/sfst?bet={sfs}))')
+				result.caption(f'- {sfs_hits} träff(ar) i instruktionen ([SFS]({sfs}))')
 			if rb_hits > 0:
 				result.caption(f'- {rb_hits} träff(ar) i senaste [regleringsbrevet]({rb})')
 				
