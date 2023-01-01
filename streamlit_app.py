@@ -18,7 +18,7 @@ def webload(url):
 
 @st.cache(persist=True)
 def load_doc(url, typ):
-	if not validators.url(url):
+	if not str(url)[0:3] == "http":
 		return None
 	time.sleep(3)
 	html = webload(url)
