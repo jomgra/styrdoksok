@@ -87,7 +87,7 @@ if search:
 		sfs = row['sfs']
 		r = load_doc(sfs, "sfs")
 		if not r is None:
-			source = { 'sfs': r['namn'] }
+			source.extend = { 'sfs': r['namn'] }
 			sfs_hits = r['text'].lower().count(search.lower())
 		else:
 			source = { 'sfs': '*Saknas*' }
@@ -95,7 +95,7 @@ if search:
 		rb = row['rb']
 		r = load_doc(rb, "rb")
 		if not r is None:
-			source = { 'rb': r['namn'] }
+			source.extend = { 'rb': r['namn'] }
 			rb_hits = r['text'].lower().count(search.lower())
 		else:
 			source = { 'rb': '*Saknas*' }
