@@ -74,7 +74,8 @@ doctype = st.radio(
 		horizontal = True,
 		label_visibility = "collapsed")
 
-st.caption(':white[colors]Sökresultat:')	
+st.caption('Sökresultat:')
+st.write('')
 
 ph = st.empty()
 result = ph.container()
