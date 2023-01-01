@@ -74,7 +74,7 @@ if search:
 			
 	for index, row in df.iterrows():
 		sfs_hits, rb_hits = 0, 0
-		sources[index] = {
+		sources[index - 1] = {
 			'namn': row['namn']
 		}
 		
