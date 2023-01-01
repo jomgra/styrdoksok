@@ -44,7 +44,6 @@ def load_mr():
 	r.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 	r['namn'] = r['namn'].str.capitalize()
 	r['sfs'] = "https://rkrattsbaser.gov.se/sfst?bet=" + r['sfs'].astype(str)
-	result.write(r['sfs'])
 	r = r.reset_index()
 	soup = BeautifulSoup(webload(esv_url))
 	links = soup.select("a[href*=SenasteRegleringsbrev]")
