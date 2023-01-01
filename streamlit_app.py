@@ -4,7 +4,6 @@ import requests as req
 import openpyxl
 from bs4 import BeautifulSoup
 import time
-import validators
 
 scb_url = 'https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statliga%20förvaltningsmyndigheter&format=True'
 
@@ -68,6 +67,12 @@ search = st.text_input(
 	"Sök efter:",
 	label_visibility="visible"
 	)
+
+doctype = st.radio(
+    "Typ av dokument",
+    ('Instruktion', 'Regleringsbrev'),
+		horizontal = True)
+		
 
 ph = st.empty()
 result = ph.container()
