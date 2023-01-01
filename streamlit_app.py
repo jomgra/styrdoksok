@@ -74,7 +74,6 @@ doctype = st.radio(
 		horizontal = True,
 		label_visibility = "collapsed")
 
-st.caption('Sökresultat:')
 st.write('')
 
 ph = st.empty()
@@ -110,15 +109,15 @@ if search:
 			
 		if sfs_hits > 0 or rb_hits > 0:
 			hits += 1
-			result.markdown('**' + row['namn'] + '**')
+			result.write(row['namn'])
 			if sfs_hits > 0:
-				result.caption(f'- {sfs_hits} träff(ar) i [instruktionen]({sfs})')
+				result.caption(f' {sfs_hits} träff(ar) i [instruktionen]({sfs})')
 			if rb_hits > 0:
-				result.caption(f'- {rb_hits} träff(ar) i senaste [regleringsbrevet]({rb})')
+				result.caption(f' {rb_hits} träff(ar) i senaste [regleringsbrevet]({rb})')
 		sources.append(source)
 				
 	if hits == 0:
-		result.markdown('*Inga sökresultat*')
+		result.write('*Inga sökresultat*')
 
 #	exp = result.expander('Genomsökta källor')
 #	exp.write('Sökningen sker maskinellt i Regeringskansliets rättdatabas samt Ekonomistyrningsverkets statsliggare. Nedan redovisas  styrdokumenten som ingick i sökingen.')
