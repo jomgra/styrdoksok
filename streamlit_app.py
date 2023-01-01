@@ -73,7 +73,7 @@ if search:
 			sfs_hits = load_sfs(sfs).lower().count(search.lower())
 		if not nullcheck['rb']:
 			rb = row['rb']
-			rb_hits = load_rb(rb) load_rb(rb).lower().count(search.lower())
+			rb_hits = load_rb(rb).lower().count(search.lower())
 			
 		if sfs_hits > 0 or rb_hits > 0:
 			hits += 1
