@@ -77,11 +77,13 @@ if search:
 	sources = []
 	ph.empty()
 	result=ph.container()
-	data = load_mr()
+	df = load_mr()
+	
+	test = loaf_sfs(None)
 		
-	for index, row in data.iterrows():
+	for index, row in df.iterrows():
 		sfs_hits, rb_hits = 0, 0
-		nullcheck = data.loc[index].isnull()
+		nullcheck = df.loc[index].isnull()
 		sources.append(row['namn'])
 		if not nullcheck['sfs']:
 			sfs = row['sfs'].strip()
