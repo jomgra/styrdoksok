@@ -40,6 +40,7 @@ def load_doc(url, typ):
 			}
 
 def load_mr():
+	# Läs in myndighetsregistret
 	r = pd.read_excel(webload(scb_url))
 	r.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 	r['namn'] = r['namn'].str.capitalize()
@@ -47,8 +48,12 @@ def load_mr():
 	r['cnamn'] = r.loc[:, 'namn']
 	r[r['cnamn'].str.contains("Länsstyrelsen")] = 'Länsstyrelserna'
 	r = r.reset_index()
+	
+	# Läs in ESVs myndighetslista
 	soup = BeautifulSoup(webload(esv_url))
 	links = soup.select("a[href*=SenasteRegleringsbrev]")
+	
+	# Lägg ihop listorna
 	for link in links:
 		namn = link.get_text().strip().capitalize()
 		r.loc[r['cnamn'] == namn, 'rb'] = 'https://www.esv.se' + link.get("href")	
@@ -84,12 +89,16 @@ if search:
 		if not r is None:
 			source = { 'sfs': r['namn'] }
 			sfs_hits = r['text'].lower().count(search.lower())
-		
+		else:
+			source = { 'sfs': '*Saknas*' }
+			
 		rb = row['rb']
 		r = load_doc(rb, "rb")
 		if not r is None:
 			source = { 'rb': r['namn'] }
 			rb_hits = r['text'].lower().count(search.lower())
+		else:
+			source = { 'rb': '*Saknas*' }
 			
 		if sfs_hits > 0 or rb_hits > 0:
 			hits += 1
@@ -106,6 +115,6 @@ if search:
 	exp.write('Sökningen sker maskinellt i Regeringskansliets rättdatabas samt Ekonomistyrningsverkets statsliggare. I enstaka fall kan sökningen missa styrdokument. Nedan kan du kontrollera vilka styrdokument som ingick i sökingen.')
 	for source in sources:
 		exp.write(source['namn'])
-		exp.write(source['sfs'])
-		exp.write(source['rb'])
+		exp.caption("Instruktion: " + source['sfs'])
+		exp.caption("Regleringsbrev: " + source['rb'])
 		
