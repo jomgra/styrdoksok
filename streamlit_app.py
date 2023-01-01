@@ -112,9 +112,9 @@ if search:
 	if hits == 0:
 		result.markdown('*Inga sökresultat*')
 	exp = result.expander('Genomsökta källor')
-	exp.write('Sökningen sker maskinellt i Regeringskansliets rättdatabas samt Ekonomistyrningsverkets statsliggare. I enstaka fall kan sökningen missa styrdokument. Nedan kan du kontrollera vilka styrdokument som ingick i sökingen.')
-	for source in sources:
-		exp.write(source['namn'])
-		exp.caption("Instruktion: " + source['sfs'])
-		exp.caption("Regleringsbrev: " + source['rb'])
+	exp.write('Sökningen sker maskinellt i Regeringskansliets rättdatabas samt Ekonomistyrningsverkets statsliggare. Nedan redovisas  styrdokumenten som ingick i sökingen.')
+	for s in sources:
+		exp.write(s['namn'])
+		exp.caption("Instruktion: " + s['sfs'])
+		exp.caption("Regleringsbrev: " + s['rb'])
 		
