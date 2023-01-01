@@ -43,6 +43,7 @@ def load_mr():
 	r = pd.read_excel(webload(scb_url))
 	r.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 	r['namn'] = r['namn'].str.capitalize()
+	r['sfs'] = "https://rkrattsbaser.gov.se/sfst?bet=" + str(r['sfs']).strip()
 	r = r.reset_index()
 	soup = BeautifulSoup(webload(esv_url))
 	links = soup.select("a[href*=SenasteRegleringsbrev]")
@@ -76,7 +77,7 @@ if search:
 		sfs_hits, rb_hits = 0, 0
 		source = { 'namn': row['namn'] }
 		
-		sfs = "https://rkrattsbaser.gov.se/sfst?bet=" + str(row['sfs']).strip()
+		sfs = row['sfs']
 		r = load_doc(sfs, "sfs")
 		if not r is None:
 			source = { 'sfs': r['namn'] }
@@ -92,7 +93,7 @@ if search:
 			hits += 1
 			result.markdown('**' + row['namn'] + '**')
 			if sfs_hits > 0:
-				result.caption(f'- {sfs_hits} träff(ar) i [instruktionen({sfs})')
+				result.caption(f'- {sfs_hits} träff(ar) i [instruktionen]({sfs})')
 			if rb_hits > 0:
 				result.caption(f'- {rb_hits} träff(ar) i senaste [regleringsbrevet]({rb})')
 		sources.append(source)
