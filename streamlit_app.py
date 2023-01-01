@@ -48,8 +48,7 @@ def load_mr():
 	links = soup.select("a[href*=SenasteRegleringsbrev]")
 	for link in links:
 		namn = link.get_text().strip().capitalize()
-		r.loc[r['namn'] == namn, 'rb'] = 'https://www.esv.se' + link.get("href")
-	
+		r.loc[r['namn'] == namn, 'rb'] = 'https://www.esv.se' + link.get("href")	
 	return r
 
 # ================================
@@ -75,7 +74,9 @@ if search:
 			
 	for index, row in df.iterrows():
 		sfs_hits, rb_hits = 0, 0
-		sources.append(row['namn'])
+		sources[index] = {
+			'namn': row['namn']
+		}
 		
 		sfs = "https://rkrattsbaser.gov.se/sfst?bet=" + str(row['sfs']).strip()
 		r = load_doc(sfs, "sfs")
@@ -91,7 +92,7 @@ if search:
 			hits += 1
 			result.markdown('**' + row['namn'] + '**')
 			if sfs_hits > 0:
-				result.caption(f'- {sfs_hits} träff(ar) i instruktionen ([SFS]({sfs}))')
+				result.caption(f'- {sfs_hits} träff(ar) i [instruktionen({sfs})')
 			if rb_hits > 0:
 				result.caption(f'- {rb_hits} träff(ar) i senaste [regleringsbrevet]({rb})')
 				
@@ -100,4 +101,4 @@ if search:
 	exp = result.expander('Genomsökta källor')
 	exp.write('Sökningen sker maskinellt i Regeringskansliets rättdatabas samt Ekonomistyrningsverkets statsliggare. I enstaka fall kan sökningen missa styrdokument. Nedan kan du kontrollera vilka styrdokument som ingick i sökingen.')
 	for source in sources:
-		exp.write(source)
+		exp.write(source['namn'])
