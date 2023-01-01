@@ -20,23 +20,31 @@ def load_sfs(sfs):
 	time.sleep(3)
 	html = webload("https://rkrattsbaser.gov.se/sfst?bet=" + sfs)
 	soup = BeautifulSoup(html)
-	r = {
-		'namn': soup.find("span","bold").get_text(),
-		'text': soup.find("div","body-text").get_text()
+	n = soup.find("span","bold")
+	t = soup.find("div","body-text")
 	
-	}
-	return r
+	if n is None or t is None:
+		return None
+	else:
+		return {
+			'namn': n.get_text(),
+			'text': t.get_text()
+			}
 
 @st.cache(persist=True)
 def load_rb(url):
 	time.sleep(3)
 	html = webload(url)
 	soup = BeautifulSoup(html)
-	r = soup.find("section", {"id": "letter"})
-	if r is None:
-		return ""
+	n = soup.find("div",{"id": "BrevInledandeText_Rubrik"})
+	t = soup.find("section", {"id": "letter"})
+	if n is None or t is None:
+		return None
 	else:
-		return r.get_text()
+		return {
+			'namn': n.get_text(),
+			'text': t.get_text()
+			}
 
 def load_mr():
 	r = pd.read_excel(webload(scb_url))
@@ -77,10 +85,14 @@ if search:
 		sources.append(row['namn'])
 		if not nullcheck['sfs']:
 			sfs = row['sfs'].strip()
-			sfs_hits = load_sfs(sfs).lower().count(search.lower())
+			r = load_sfs(sfs)
+			if not r is None:
+				sfs_hits = r['text'].lower().count(search.lower())
 		if not nullcheck['rb']:
 			rb = row['rb']
-			rb_hits = load_rb(rb).lower().count(search.lower())
+			r = load_rb(rb)
+			if not r is None:
+				rb_hits = r['text'].lower().count(search.lower())
 			
 		if sfs_hits > 0 or rb_hits > 0:
 			hits += 1
