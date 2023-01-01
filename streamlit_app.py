@@ -69,8 +69,8 @@ search = st.text_input(
 	)
 
 doctype = st.radio(
-    "Typ av dokument",
-    ('Instruktion', 'Regleringsbrev'),
+    "Typer av dokument att sök i:",
+    ('Instruktioner', 'Regleringsbrev'),
 		horizontal = True)
 		
 
