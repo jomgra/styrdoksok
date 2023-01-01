@@ -4,3 +4,4 @@ numpy
 requests
 openpyxl
 bs4
+validators

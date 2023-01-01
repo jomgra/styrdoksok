@@ -4,6 +4,7 @@ import requests as req
 import openpyxl
 from bs4 import BeautifulSoup
 import time
+import validators
 
 scb_url = 'https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statliga%20förvaltningsmyndigheter&format=True'
 
@@ -17,6 +18,8 @@ def webload(url):
 
 @st.cache(persist=True)
 def load_doc(url, typ):
+	if not validators.url(url):
+		return None
 	time.sleep(3)
 	html = webload(url)
 	soup = BeautifulSoup(html)
