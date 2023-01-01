@@ -19,16 +19,15 @@ def webload(url):
 @st.cache(persist=True)
 def load_doc(url, typ):
 	if not str(url)[0:4] == "http":
-		result.write(str(url)[0:4])
 		return None
 	time.sleep(3)
 	html = webload(url)
 	soup = BeautifulSoup(html)
 	
-	if typ == 'rb':
+	if typ == 'sfs':
 		n = soup.find("span","bold")
 		t = soup.find("div","body-text")
-	elif typ == 'sfs':
+	elif typ == 'rb':
 		n = soup.find("div",{"id": "BrevInledandeText_Rubrik"})
 		t = soup.find("section", {"id": "letter"})		
 	
@@ -73,8 +72,6 @@ if search:
 	ph.empty()
 	result=ph.container()
 	df = load_mr()
-	
-	result.write(df)
 			
 	for index, row in df.iterrows():
 		sfs_hits, rb_hits = 0, 0
