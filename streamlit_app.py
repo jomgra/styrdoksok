@@ -57,7 +57,6 @@ if search:
 	data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 	data['namn'] = data['namn'].str.capitalize()
 	data = data.reset_index()
-	
 	soup = BeautifulSoup(webload(esv_url))
 	links = soup.select("a[href*=SenasteRegleringsbrev]")
 	for link in links:
@@ -74,7 +73,6 @@ if search:
 			sfs_hits = load_sfs(sfs).lower().count(search.lower())
 		if not nullcheck['rb']:
 			rb = row['rb']
-			rb_r =
 			rb_hits = load_rb(rb) load_rb(rb).lower().count(search.lower())
 			
 		if sfs_hits > 0 or rb_hits > 0:
