@@ -79,7 +79,6 @@ if search:
 		
 		sfs = "https://rkrattsbaser.gov.se/sfst?bet=" + str(row['sfs']).strip()
 		r = load_doc(sfs, "sfs")
-		result.markdown(r)
 		if not r is None:
 			sfs_hits = r['text'].lower().count(search.lower())
 		
