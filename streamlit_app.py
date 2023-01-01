@@ -114,7 +114,7 @@ if search:
 	exp = result.expander('Genomsökta källor')
 	exp.write('Sökningen sker maskinellt i Regeringskansliets rättdatabas samt Ekonomistyrningsverkets statsliggare. Nedan redovisas  styrdokumenten som ingick i sökingen.')
 	for s in sources:
-		exp.write(s['namn'])
-		exp.caption("Instruktion: " + s['sfs'])
-		exp.caption("Regleringsbrev: " + s['rb'])
+		exp.write(s)
+		#exp.caption("Instruktion: " + s['sfs'])
+		#exp.caption("Regleringsbrev: " + s['rb'])
 		
