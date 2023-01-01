@@ -20,7 +20,7 @@ def load_sfs(sfs):
 	time.sleep(3)
 	html = webload("https://rkrattsbaser.gov.se/sfst?bet=" + sfs)
 	soup = BeautifulSoup(html)
-	r = soup.find("div","body-text").get_text()å
+	r = soup.find("div","body-text").get_text()
 	return r
 
 @st.cache(persist=True)
