@@ -84,5 +84,5 @@ if search:
 				
 	if hits == 0:
 		result.markdown('*Inga sökresultat*')
-	exp = result.expander('Källor')
-	exp.write('text')
+	exp = result.expander('Genomsökta källor')
+	exp.write('Sökningen sker maskinellt i SBC:s myndighetregister, Regeringskansliets rättdatabas samt ESV:s statsliggare. I vissa fall kan sökningen missa styrdokument för vissa nyndigheter. Nedan kan du kontrollera vilka styrdokument som ingick i sök ingen.')
