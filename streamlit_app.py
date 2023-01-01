@@ -20,7 +20,7 @@ def load_sfs(sfs):
 	time.sleep(3)
 	html = webload("https://rkrattsbaser.gov.se/sfst?bet=" + sfs)
 	soup = BeautifulSoup(html)
-	r = soup.find("div","body-text").get_text()
+	r = soup.find("div","body-text").get_text()å
 	return r
 
 @st.cache(persist=True)
@@ -47,23 +47,23 @@ search = st.text_input(
 ph = st.empty()
 result = ph.container()
 result.markdown('*Inga sökresultat*')
-
-data = pd.read_excel(webload(scb_url))
-data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
-data['namn'] = data['namn'].str.capitalize()
-data = data.reset_index()
-
-soup = BeautifulSoup(webload(esv_url))
-links = soup.select("a[href*=SenasteRegleringsbrev]")
-for link in links:
-	namn = link.get_text().strip().capitalize()
-	data.loc[data['namn'] == namn, 'rb'] = 'https://www.esv.se' + link.get("href")
 	
 if search:
 	hits = 0
 	sources = []
 	ph.empty()
 	result=ph.container()
+	data = pd.read_excel(webload(scb_url))
+	data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
+	data['namn'] = data['namn'].str.capitalize()
+	data = data.reset_index()
+	
+	soup = BeautifulSoup(webload(esv_url))
+	links = soup.select("a[href*=SenasteRegleringsbrev]")
+	for link in links:
+		namn = link.get_text().strip().capitalize()
+		data.loc[data['namn'] == namn, 'rb'] = 'https://www.esv.se' + link.get("href")
+		
 	for index, row in data.iterrows():
 		sfs_hits = 0
 		rb_hits = 0
@@ -74,7 +74,8 @@ if search:
 			sfs_hits = load_sfs(sfs).lower().count(search.lower())
 		if not nullcheck['rb']:
 			rb = row['rb']
-			rb_hits = load_rb(rb).lower().count(search.lower())
+			rb_r =
+			rb_hits = load_rb(rb) load_rb(rb).lower().count(search.lower())
 			
 		if sfs_hits > 0 or rb_hits > 0:
 			hits += 1
@@ -87,6 +88,6 @@ if search:
 	if hits == 0:
 		result.markdown('*Inga sökresultat*')
 	exp = result.expander('Genomsökta källor')
-	exp.write('Sökningen sker maskinellt i Regeringskansliets rättdatabas samt Ekonomistyrningsverkets statsliggare. I vissa fall kan sökningen missa styrdokument för enstaka nyndigheter. Nedan kan du kontrollera vilka styrdokument som ingick i sökingen.')
+	exp.write('Sökningen sker maskinellt i Regeringskansliets rättdatabas samt Ekonomistyrningsverkets statsliggare. I enstaka fall kan sökningen missa styrdokument. Nedan kan du kontrollera vilka styrdokument som ingick i sökingen.')
 	for source in sources:
 		exp.write(source)
