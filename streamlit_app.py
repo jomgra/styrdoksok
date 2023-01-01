@@ -68,9 +68,7 @@ if search:
 	ph.empty()
 	result=ph.container()
 	df = load_mr()
-	
-	test = load_sfs(None)
-		
+			
 	for index, row in df.iterrows():
 		sfs_hits, rb_hits = 0, 0
 		sources.append(row['namn'])
