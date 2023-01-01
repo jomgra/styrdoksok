@@ -79,7 +79,7 @@ if search:
 	result=ph.container()
 	df = load_mr()
 	
-	test = loaf_sfs(None)
+	test = load_sfs(None)
 		
 	for index, row in df.iterrows():
 		sfs_hits, rb_hits = 0, 0
