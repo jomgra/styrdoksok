@@ -19,6 +19,7 @@ def webload(url):
 @st.cache(persist=True)
 def load_doc(url, typ):
 	if not validators.url(str(url)):
+		st.write('rt')
 		return None
 	time.sleep(3)
 	html = webload(url)
