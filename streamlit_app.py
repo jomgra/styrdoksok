@@ -18,7 +18,7 @@ def webload(url):
 
 @st.cache(persist=True)
 def load_doc(url, typ):
-	if not str(url)[0:3] == "http":
+	if not str(url)[0:4] == "http":
 		result.write(str(url)[0:3])
 		return None
 	time.sleep(3)
