@@ -83,18 +83,16 @@ if search:
 		
 	for index, row in df.iterrows():
 		sfs_hits, rb_hits = 0, 0
-		nullcheck = df.loc[index].isnull()
 		sources.append(row['namn'])
-		if not nullcheck['sfs']:
-			sfs = row['sfs'].strip()
-			r = load_sfs(sfs)
-			if not r is None:
-				sfs_hits = r['text'].lower().count(search.lower())
-		if not nullcheck['rb']:
-			rb = row['rb']
-			r = load_rb(rb)
-			if not r is None:
-				rb_hits = r['text'].lower().count(search.lower())
+		sfs = row['sfs'].strip()
+		r = load_sfs(sfs)
+		if not r is None:
+			sfs_hits = r['text'].lower().count(search.lower())
+		
+		rb = row['rb']
+		r = load_rb(rb)
+		if not r is None:
+			rb_hits = r['text'].lower().count(search.lower())
 			
 		if sfs_hits > 0 or rb_hits > 0:
 			hits += 1
