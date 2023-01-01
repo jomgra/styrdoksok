@@ -34,10 +34,22 @@ def load_rb(url):
 	else:
 		return r.get_text()
 
+def load_mr():
+	r = pd.read_excel(webload(scb_url))
+	r.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
+	r['namn'] = r['namn'].str.capitalize()
+	r = r.reset_index()
+	soup = BeautifulSoup(webload(esv_url))
+	links = soup.select("a[href*=SenasteRegleringsbrev]")
+	for link in links:
+		namn = link.get_text().strip().capitalize()
+		r.loc[r['namn'] == namn, 'rb'] = 'https://www.esv.se' + link.get("href")
+	return r
+
 # ================================
 	
 st.title('Sök i instruktioner och regleringsbrev')
-st.write("Här kan du söka i alla svenska förvaltningsmyndigheters aktuella instruktioner och regleringsbrev.")
+st.write("Här kan du söka i svenska förvaltningsmyndigheters aktuella instruktioner och regleringsbrev.")
 
 search = st.text_input(
 	"Sök efter:",
@@ -53,19 +65,10 @@ if search:
 	sources = []
 	ph.empty()
 	result=ph.container()
-	data = pd.read_excel(webload(scb_url))
-	data.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
-	data['namn'] = data['namn'].str.capitalize()
-	data = data.reset_index()
-	soup = BeautifulSoup(webload(esv_url))
-	links = soup.select("a[href*=SenasteRegleringsbrev]")
-	for link in links:
-		namn = link.get_text().strip().capitalize()
-		data.loc[data['namn'] == namn, 'rb'] = 'https://www.esv.se' + link.get("href")
+	data = load_mr()
 		
 	for index, row in data.iterrows():
-		sfs_hits = 0
-		rb_hits = 0
+		sfs_hits, rb_hits = 0, 0
 		nullcheck = data.loc[index].isnull()
 		sources.append(row['namn'])
 		if not nullcheck['sfs']:
