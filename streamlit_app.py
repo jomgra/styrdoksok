@@ -74,18 +74,18 @@ if search:
 			
 	for index, row in df.iterrows():
 		sfs_hits, rb_hits = 0, 0
-		sources[index - 1] = {
-			'namn': row['namn']
-		}
+		source = { 'namn': row['namn'] }
 		
 		sfs = "https://rkrattsbaser.gov.se/sfst?bet=" + str(row['sfs']).strip()
 		r = load_doc(sfs, "sfs")
 		if not r is None:
+			source = { 'sfs': r['namn'] }
 			sfs_hits = r['text'].lower().count(search.lower())
 		
 		rb = row['rb']
 		r = load_doc(rb, "rb")
 		if not r is None:
+			source = { 'rb': r['namn'] }
 			rb_hits = r['text'].lower().count(search.lower())
 			
 		if sfs_hits > 0 or rb_hits > 0:
@@ -95,6 +95,7 @@ if search:
 				result.caption(f'- {sfs_hits} träff(ar) i [instruktionen({sfs})')
 			if rb_hits > 0:
 				result.caption(f'- {rb_hits} träff(ar) i senaste [regleringsbrevet]({rb})')
+		sources.append(source)
 				
 	if hits == 0:
 		result.markdown('*Inga sökresultat*')
@@ -102,3 +103,6 @@ if search:
 	exp.write('Sökningen sker maskinellt i Regeringskansliets rättdatabas samt Ekonomistyrningsverkets statsliggare. I enstaka fall kan sökningen missa styrdokument. Nedan kan du kontrollera vilka styrdokument som ingick i sökingen.')
 	for source in sources:
 		exp.write(source['namn'])
+		exp.write(source['sfs'])
+		exp.write(source['rb'])
+		
