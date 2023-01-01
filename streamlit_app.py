@@ -61,12 +61,14 @@ for link in links:
 	
 if search:
 	hits = 0
+	sources = []
 	ph.empty()
 	result=ph.container()
 	for index, row in data.iterrows():
 		sfs_hits = 0
 		rb_hits = 0
 		nullcheck = data.loc[index].isnull()
+		sources.append(row['namn'])
 		if not nullcheck['sfs']:
 			sfs = row['sfs'].strip()
 			sfs_hits = load_sfs(sfs).lower().count(search.lower())
@@ -85,4 +87,6 @@ if search:
 	if hits == 0:
 		result.markdown('*Inga sökresultat*')
 	exp = result.expander('Genomsökta källor')
-	exp.write('Sökningen sker maskinellt i Statistiska centralbyråns myndighetregister, Regeringskansliets rättdatabas samt Ekonomistyrningsverkets statsliggare. I vissa fall kan sökningen missa styrdokument för enstaka nyndigheter. Nedan kan du kontrollera vilka styrdokument som ingick i sökingen.')
+	exp.write('Sökningen sker maskinellt i Regeringskansliets rättdatabas samt Ekonomistyrningsverkets statsliggare. I vissa fall kan sökningen missa styrdokument för enstaka nyndigheter. Nedan kan du kontrollera vilka styrdokument som ingick i sökingen.')
+	for source in sources:
+		exp.write(source)
