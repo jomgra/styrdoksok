@@ -86,15 +86,14 @@ doctype = st.radio(
 st.write('')
 
 ph = st.empty()
-result = ph.container()
-result.markdown('*Inga sökresultat*')
+ph.markdown('*Inga sökresultat*')
 
 # == SEARCH ==
 
 if search:
 	t = typ.index(doctype)
-#	ph.empty()
-#	result = ph.container()		
+	ph.empty()
+	result = ph.container()		
 
 	df = load_doclist(t)
 			
