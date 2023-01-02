@@ -70,7 +70,6 @@ def load_mr(td):
 		for l in links:
 			n.append(l.get_text().strip().capitalize())
 			u.append('https://www.esv.se' + l.get("href"))
-			st.write(l.get("href"))
 		data = {
 			'namn': n,
 			'url': u
