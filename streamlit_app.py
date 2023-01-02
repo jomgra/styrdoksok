@@ -57,8 +57,8 @@ def load_mr(dt):
 	elif dt == 'rb':
 		soup = BeautifulSoup(webload(esv_url))
 		links = soup.select("a[href*=SenasteRegleringsbrev]")
+		n, u = [], []
 		for l in links:
-			n, u = [], []
 			n.append(l.get_text().strip().capitalize())
 			u.append('https://www.esv.se' + l.get("href"))
 		data = {
