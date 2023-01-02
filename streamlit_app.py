@@ -90,8 +90,9 @@ ph.markdown('*Inga sökresultat*')
 
 if search:
 	t = typ.index(doctype)
-	ph = st.empty()	
 	df = load_doclist(t)
+	ph.empty()
+	res = ph.container()	
 			
 	for index, row in df.iterrows():
 		hits = 0
@@ -99,5 +100,5 @@ if search:
 		if not r is None:
 			hits = r['text'].count(search.lower())
 			if hits:
-				ph.markdown('[' + r['namn'] + '](' + row['url'] + ')')
-				ph.caption(row['namn'].strip() + ', ' + str(hits) + ' träff(ar)')
+				res.markdown('[' + r['namn'] + '](' + row['url'] + ')')
+				res.caption(row['namn'].strip() + ', ' + str(hits) + ' träff(ar)')
