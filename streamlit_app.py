@@ -81,7 +81,7 @@ search = st.text_input(
 
 doctype = st.radio(
     "Typ av dokument att sök i:",
-    ('Instruktion', 'Regleringsbrev'),
+    (list(typ.keys())),
 		horizontal = True,
 		label_visibility = "collapsed")
 
