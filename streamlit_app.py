@@ -9,17 +9,28 @@ scb_url = 'https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statl
 
 esv_url = "https://www.esv.se/statsliggaren/"
 
+ttyp = {
+	'Instruktion': {
+
+	},
+	'Regleringsbrev': {
+
+	}
+}
+
 typ = [
 		'Instruktion', 
 		'Regleringsbrev'
 		]
 
+# == WEBLOAD ==
 @st.cache(persist=True)
 def webload(url):
 	web = req.get(url)
 	web.encoding = web.apparent_encoding
 	return web.content
 
+# == LOAD_DOC ==
 @st.cache(persist=True)
 def load_doc(url, td):
 	if not str(url)[0:4] == "http":
@@ -43,11 +54,11 @@ def load_doc(url, td):
 			'text': t.get_text().lower()
 			}
 
+# == LOAD_MR ==
 def load_mr(td):
 	if td == 0:
 		r = pd.read_excel(webload(scb_url))
-		r.rename(lambda x: str(x).lower(), 
-		axis='columns', inplace=True)
+		r.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 		r['namn'] = r['namn'].str.capitalize()
 		r['url'] = "https://rkrattsbaser.gov.se/sfst?bet=" + r['sfs'].astype(str)
 		r = r.reset_index()
@@ -62,15 +73,20 @@ def load_mr(td):
 		data = {
 			'namn': n,
 			'url': u
-		}
+			}
 		r = pd.DataFrame(data)
 		r = r.reset_index()
 		return r
 
-# ================================
+def disabledGUI(state):
+	doctype.disabled = state
+	search.disabled = state
+	return
+
+# == LAYOUT ==
 	
 st.title('Sök i instruktioner och regleringsbrev')
-st.write("Här kan du söka i svenska förvaltningsmyndigheters aktuella instruktioner och regleringsbrev.")
+st.write("Här kan du söka i svenska myndigheters aktuella instruktioner och regleringsbrev.")
 
 search = st.text_input(
 	"Sök efter:",
@@ -88,8 +104,11 @@ st.write('')
 ph = st.empty()
 result = ph.container()
 result.markdown('*Inga sökresultat*')
-	
+
+# == SEARCH ==
+
 if search:
+	disabledGUI(True)
 	t = typ.index(doctype)
 		
 	ph.empty()
