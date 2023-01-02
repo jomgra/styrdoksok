@@ -80,7 +80,6 @@ def load_mr(td):
 
 def disabledGUI(state):
 	doctype.disabled = state
-	search.disabled = state
 	return
 
 # == LAYOUT ==
