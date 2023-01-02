@@ -30,10 +30,10 @@ def load_doc(url, typ):
 	html = webload(url)
 	soup = BeautifulSoup(html)
 	
-	if typ == 'sfs':
+	if typ == 0:
 		n = soup.find("span","bold")
 		t = soup.find("div","body-text")
-	elif typ == 'rb':
+	elif typ == 1:
 		n = soup.find("div",{"id": "BrevInledandeText_Rubrik"})
 		t = soup.find("section", {"id": "letter"})		
 	
@@ -45,8 +45,8 @@ def load_doc(url, typ):
 			'text': t.get_text().lower()
 			}
 
-def load_mr(dt):
-	if dt == 'sfs':
+def load_mr(typ):
+	if typ == 0:
 		r = pd.read_excel(webload(scb_url))
 		r.rename(lambda x: str(x).lower(), 
 		axis='columns', inplace=True)
@@ -54,7 +54,7 @@ def load_mr(dt):
 		r['url'] = "https://rkrattsbaser.gov.se/sfst?bet=" + r['sfs'].astype(str)
 		r = r.reset_index()
 		return r
-	elif dt == 'rb':
+	elif typ == 1:
 		soup = BeautifulSoup(webload(esv_url))
 		links = soup.select("a[href*=SenasteRegleringsbrev]")
 		n, u = [], []
@@ -92,18 +92,15 @@ result = ph.container()
 result.markdown('*Inga sökresultat*')
 	
 if search:
-	if doctype == "Instruktion":
-		dt = 'sfs'
-	else:
-		dt = 'rb'
+	t = list(typ.keys()).index(doctype)
 		
 	ph.empty()
 	result = ph.container()
-	df = load_mr(dt)
+	df = load_mr(t)
 			
 	for index, row in df.iterrows():
 		hits = 0
-		r = load_doc(row['url'], dt)
+		r = load_doc(row['url'], t)
 		if not r is None:
 			hits = r['text'].count(search.lower())
 			if hits > 0:
