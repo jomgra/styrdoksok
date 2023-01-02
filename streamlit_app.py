@@ -12,6 +12,7 @@ esv_url = "https://www.esv.se/statsliggaren/"
 typ = [ 'Instruktion', 'Regleringsbrev' ]
 
 # == WEBLOAD ==
+
 @st.cache(persist=True)
 def webload(url):
 	web = req.get(url)
@@ -77,9 +78,9 @@ search = st.text_input(
 doctype = st.radio(
     "Typ av dokument att sök i:",
     (typ), 
-		horizontal = True,
-		label_visibility = "collapsed"
-		)
+	horizontal = True,
+	label_visibility = "collapsed"
+	)
 
 st.write('')
 
