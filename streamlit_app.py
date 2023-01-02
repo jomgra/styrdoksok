@@ -92,8 +92,8 @@ doctype = st.radio(
     "Typ av dokument att sök i:",
     (typ), 
 		horizontal = True,
-		label_visibility = "collapsed",
-		on_change = ph.empty)
+		label_visibility = "collapsed"
+		)
 
 st.write('')
 
@@ -105,7 +105,8 @@ result.markdown('*Inga sökresultat*')
 
 if search:
 	t = typ.index(doctype)
-		
+	ph.empty()
+	result = ph.container()		
 
 	df = load_mr(t)
 			
