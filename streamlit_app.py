@@ -106,8 +106,7 @@ result.markdown('*Inga sökresultat*')
 if search:
 	t = typ.index(doctype)
 		
-	ph.empty()
-	result = ph.container()
+
 	df = load_mr(t)
 			
 	for index, row in df.iterrows():
