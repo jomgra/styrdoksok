@@ -46,7 +46,7 @@ def load_doc(url, typ):
 			}
 
 def load_mr(dt):
-	if dt = 'sfs':
+	if dt == 'sfs':
 		r = pd.read_excel(webload(scb_url))
 		r.rename(lambda x: str(x).lower(), 
 		axis='columns', inplace=True)
@@ -54,7 +54,7 @@ def load_mr(dt):
 		r['url'] = "https://rkrattsbaser.gov.se/sfst?bet=" + r['sfs'].astype(str)
 		r = r.reset_index()
 		return r
-	elif dt = 'rb':
+	elif dt == 'rb':
 		soup = BeautifulSoup(webload(esv_url))
 		links = soup.select("a[href*=SenasteRegleringsbrev]")
 		data = []
