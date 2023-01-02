@@ -92,7 +92,8 @@ doctype = st.radio(
     "Typ av dokument att sök i:",
     (typ), 
 		horizontal = True,
-		label_visibility = "collapsed")
+		label_visibility = "collapsed",
+		on_change = ph.empty())
 
 st.write('')
 
