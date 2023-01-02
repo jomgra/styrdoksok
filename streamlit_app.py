@@ -64,6 +64,9 @@ def load_doc(url, td):
 			'text': t.get_text().lower()
 			}
 
+def reset():
+
+
 # == LAYOUT ==
 	
 st.title('Sök i instruktioner och regleringsbrev')
@@ -90,7 +93,7 @@ ph.markdown('*Inga sökresultat*')
 
 if search:
 	t = typ.index(doctype)
-	ph.empty()
+	ph = st.empty()
 	result = ph.container()		
 	df = load_doclist(t)
 			
