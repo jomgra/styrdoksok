@@ -42,7 +42,7 @@ def load_doc(url, typ):
 	else:
 		return {
 			'namn': n.get_text(),
-			'text': t.get_text()
+			'text': t.get_text().lower()
 			}
 
 def load_mr(dt):
@@ -65,9 +65,7 @@ def load_mr(dt):
 			'namn': n,
 			'url': u
 		}
-		st.write(data)
 		r = pd.DataFrame(data)
-		st.write(r)
 		r = r.reset_index()
 		return r
 
@@ -107,23 +105,12 @@ if search:
 		hits = 0
 		r = load_doc(row['url'], dt)
 		if not r is None:
-			hits = r['text'].lower().count(search.lower())
+			hits = r['text'].count(search.lower())
 			
 		if hits > 0:
 			namn = r['namn']
 			url = row['url']
 			myn = row['namn']
-			result.write(f'[{namn}]({url})')
+			#result.write(f'[{namn}]({url})')
+			result.write('[' + r['namn'] + '](' + row['url'] + ')')
 			result.caption(f'{myn}, {hits} träff(ar)')
-			
-				
-#	if hits == 0:
-#		result.write('*Inga sökresultat*')
-
-#	exp = result.expander('Genomsökta källor')
-#	exp.write('Sökningen sker maskinellt i Regeringskansliets rättdatabas samt Ekonomistyrningsverkets statsliggare. Nedan redovisas  styrdokumenten som ingick i sökingen.')
-#	for s in sources:
-#		exp.write(s['namn'])
-#		exp.caption("Instruktion: " + s['sfs'])
-#		exp.caption("Regleringsbrev: " + s['rb'])
-		
