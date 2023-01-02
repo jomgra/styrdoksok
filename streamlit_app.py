@@ -108,7 +108,9 @@ if search:
 		if hits > 0:
 			namn = r['namn']
 			url = row['url']
+			myn = row['namn']
 			result.write(f'[{namn}]({url})')
+			result.caption(f'{myn}, {hits} träff(ar)')
 			
 				
 #	if hits == 0:
