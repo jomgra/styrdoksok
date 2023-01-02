@@ -109,7 +109,7 @@ if search:
 			
 		if sfs_hits > 0 or rb_hits > 0:
 			hits += 1
-			result.write(row['namn'])
+			result.write('[sfs]({sfs})')
 			if sfs_hits > 0:
 				result.caption(f' {sfs_hits} träff(ar) i [instruktionen]({sfs})')
 			if rb_hits > 0:
