@@ -98,7 +98,7 @@ if search:
 		dt = 'rb'
 		
 	ph.empty()
-	result=ph.container()
+	result = ph.container()
 	df = load_mr(dt)
 			
 	for index, row in df.iterrows():
@@ -106,11 +106,7 @@ if search:
 		r = load_doc(row['url'], dt)
 		if not r is None:
 			hits = r['text'].count(search.lower())
-			
-		if hits > 0:
-			namn = r['namn']
-			url = row['url']
-			myn = row['namn']
-			#result.write(f'[{namn}]({url})')
-			result.write('[' + r['namn'] + '](' + row['url'] + ')')
-			result.caption(f'{myn}, {hits} träff(ar)')
+			if hits > 0:
+				myn = row['namn']
+				result.markdown('[' + r['namn'] + '](' + row['url'] + ')')
+				result.caption(f'{myn}, {hits} träff(ar)')
