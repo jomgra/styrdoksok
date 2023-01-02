@@ -64,9 +64,6 @@ def load_doc(url, td):
 			'text': t.get_text().lower()
 			}
 
-def reset():
-
-
 # == LAYOUT ==
 	
 st.title('Sök i instruktioner och regleringsbrev')
