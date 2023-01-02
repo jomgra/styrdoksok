@@ -9,15 +9,6 @@ scb_url = 'https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statl
 
 esv_url = "https://www.esv.se/statsliggaren/"
 
-ttyp = {
-	'Instruktion': {
-
-	},
-	'Regleringsbrev': {
-
-	}
-}
-
 typ = [
 		'Instruktion', 
 		'Regleringsbrev'
@@ -29,6 +20,26 @@ def webload(url):
 	web = req.get(url)
 	web.encoding = web.apparent_encoding
 	return web.content
+
+# == LOAD_doclist ==
+def load_doclist(td):
+	if td == 0:
+		r = pd.read_excel(webload(scb_url))
+		r.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
+		r['url'] = "https://rkrattsbaser.gov.se/sfst?bet=" + r['sfs'].astype(str)
+		r = r.reset_index()
+		return r
+	elif td == 1:
+		soup = BeautifulSoup(webload(esv_url))
+		links = soup.select("a[href*=SenasteRegleringsbrev]")
+		n, u = [], []
+		for l in links:
+			n.append(l.get_text())
+			u.append('https://www.esv.se' + l.get("href"))
+		data = {'namn': n, 'url': u }
+		r = pd.DataFrame(data)
+		r = r.reset_index()
+		return r
 
 # == LOAD_DOC ==
 @st.cache(persist=True)
@@ -54,29 +65,6 @@ def load_doc(url, td):
 			'text': t.get_text().lower()
 			}
 
-# == LOAD_MR ==
-def load_mr(td):
-	if td == 0:
-		r = pd.read_excel(webload(scb_url))
-		r.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
-		r['namn'] = r['namn'].str.capitalize()
-		r['url'] = "https://rkrattsbaser.gov.se/sfst?bet=" + r['sfs'].astype(str)
-		r = r.reset_index()
-		return r
-	elif td == 1:
-		soup = BeautifulSoup(webload(esv_url))
-		links = soup.select("a[href*=SenasteRegleringsbrev]")
-		n, u = [], []
-		for l in links:
-			n.append(l.get_text().strip().capitalize())
-			u.append('https://www.esv.se' + l.get("href"))
-		data = {
-			'namn': n,
-			'url': u
-			}
-		r = pd.DataFrame(data)
-		r = r.reset_index()
-		return r
 
 # == LAYOUT ==
 	
@@ -105,10 +93,10 @@ result.markdown('*Inga sökresultat*')
 
 if search:
 	t = typ.index(doctype)
-	ph.empty()
-	result = ph.container()		
+#	ph.empty()
+#	result = ph.container()		
 
-	df = load_mr(t)
+	df = load_doclist(t)
 			
 	for index, row in df.iterrows():
 		hits = 0
