@@ -57,13 +57,15 @@ def load_mr(dt):
 	elif dt == 'rb':
 		soup = BeautifulSoup(webload(esv_url))
 		links = soup.select("a[href*=SenasteRegleringsbrev]")
-		data = []
 		for l in links:
-			o = []
-			o.append(l.get_text().strip().capitalize())
-			o.append('https://www.esv.se' + l.get("href"))
-			data.append(o)
-		r = pd.dataframe(data, columns = ['namn', 'url'])
+			n, u = [], []
+			n.append(l.get_text().strip().capitalize())
+			u.append('https://www.esv.se' + l.get("href"))
+		data = {
+			'namn': n,
+			'url':, u
+		}
+		r = pd.dataframe(data)
 		r = r.reset_index()
 		return r
 
