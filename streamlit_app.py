@@ -9,7 +9,10 @@ scb_url = 'https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statl
 
 esv_url = "https://www.esv.se/statsliggaren/"
 
-typ = ['Instruktion', 'Regleringsbrev']
+typ = [
+		'Instruktion', 
+		'Regleringsbrev'
+		]
 
 @st.cache(persist=True)
 def webload(url):
@@ -98,6 +101,6 @@ if search:
 		r = load_doc(row['url'], t)
 		if not r is None:
 			hits = r['text'].count(search.lower())
-			if hits > 0:
+			if hits:
 				result.markdown('[' + r['namn'] + '](' + row['url'] + ')')
 				result.caption(row['namn'] + ', ' + str(hits) + ' träff(ar)')
