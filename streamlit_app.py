@@ -78,10 +78,6 @@ def load_mr(td):
 		r = r.reset_index()
 		return r
 
-def disabledGUI(state):
-	doctype.disabled = state
-	return
-
 # == LAYOUT ==
 	
 st.title('Sök i instruktioner och regleringsbrev')
@@ -107,7 +103,6 @@ result.markdown('*Inga sökresultat*')
 # == SEARCH ==
 
 if search:
-	disabledGUI(True)
 	t = typ.index(doctype)
 		
 	ph.empty()
