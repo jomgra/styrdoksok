@@ -65,7 +65,9 @@ def load_mr(dt):
 			'namn': n,
 			'url': u
 		}
+		st.write(data)
 		r = pd.dataframe(data)
+		st.write(r)
 		r = r.reset_index()
 		return r
 
