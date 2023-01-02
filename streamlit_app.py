@@ -9,12 +9,10 @@ scb_url = 'https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statl
 
 esv_url = "https://www.esv.se/statsliggaren/"
 
-typ = {
-	'Instruktion': {	
-	},
-	'Regleringsbrev': {	
-	}
-}
+typ = [
+	'Instruktion',
+	'Regleringsbrev'
+	]
 
 @st.cache(persist=True)
 def webload(url):
@@ -23,17 +21,17 @@ def webload(url):
 	return web.content
 
 @st.cache(persist=True)
-def load_doc(url, typ):
+def load_doc(url, td):
 	if not str(url)[0:4] == "http":
 		return None
 	time.sleep(3)
 	html = webload(url)
 	soup = BeautifulSoup(html)
 	
-	if typ == 0:
+	if td == 0:
 		n = soup.find("span","bold")
 		t = soup.find("div","body-text")
-	elif typ == 1:
+	elif td == 1:
 		n = soup.find("div",{"id": "BrevInledandeText_Rubrik"})
 		t = soup.find("section", {"id": "letter"})		
 	
@@ -45,8 +43,8 @@ def load_doc(url, typ):
 			'text': t.get_text().lower()
 			}
 
-def load_mr(typ):
-	if typ == 0:
+def load_mr(td):
+	if td == 0:
 		r = pd.read_excel(webload(scb_url))
 		r.rename(lambda x: str(x).lower(), 
 		axis='columns', inplace=True)
@@ -54,7 +52,7 @@ def load_mr(typ):
 		r['url'] = "https://rkrattsbaser.gov.se/sfst?bet=" + r['sfs'].astype(str)
 		r = r.reset_index()
 		return r
-	elif typ == 1:
+	elif td == 1:
 		soup = BeautifulSoup(webload(esv_url))
 		links = soup.select("a[href*=SenasteRegleringsbrev]")
 		n, u = [], []
@@ -81,8 +79,7 @@ search = st.text_input(
 
 doctype = st.radio(
     "Typ av dokument att sök i:",
-    (list(typ.keys())),
-		horizontal = True,
+    (typ, horizontal = True,
 		label_visibility = "collapsed")
 
 st.write('')
@@ -92,7 +89,7 @@ result = ph.container()
 result.markdown('*Inga sökresultat*')
 	
 if search:
-	t = list(typ.keys()).index(doctype)
+	t = typ.index(doctype)
 		
 	ph.empty()
 	result = ph.container()
