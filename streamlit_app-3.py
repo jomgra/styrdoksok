@@ -9,13 +9,6 @@ scb_url = 'https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statl
 
 esv_url = "https://www.esv.se/statsliggaren/"
 
-typ = {
-	'Instruktion': {	
-	},
-	'Regleringsbrev': {	
-	}
-}
-
 @st.cache(persist=True)
 def webload(url):
 	web = req.get(url)
@@ -45,27 +38,25 @@ def load_doc(url, typ):
 			'text': t.get_text()
 			}
 
-def load_mr(dt):
-	if dt = 'sfs':
-		r = pd.read_excel(webload(scb_url))
-		r.rename(lambda x: str(x).lower(), 
-		axis='columns', inplace=True)
-		r['namn'] = r['namn'].str.capitalize()
-		r['url'] = "https://rkrattsbaser.gov.se/sfst?bet=" + r['sfs'].astype(str)
-		r = r.reset_index()
-		return r
-	elif dt = 'rb':
-		soup = BeautifulSoup(webload(esv_url))
-		links = soup.select("a[href*=SenasteRegleringsbrev]")
-		data = []
-		for l in links:
-			o = []
-			o.append(l.get_text().strip().capitalize())
-			o.append('https://www.esv.se' + l.get("href"))
-			data.append(o)
-		r = pd.dataframe(data, columns = ['namn', 'url'])
-		r = r.reset_index()
-		return r
+def load_mr():
+	# Läs in myndighetsregistret
+	r = pd.read_excel(webload(scb_url))
+	r.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
+	r['namn'] = r['namn'].str.capitalize()
+	r['sfs'] = "https://rkrattsbaser.gov.se/sfst?bet=" + r['sfs'].astype(str)
+	r['cnamn'] = r.loc[:, 'namn']
+	r.loc[r['cnamn'].str.contains("Länsstyrelsen"), 'cnamn'] = 'Länsstyrelserna'
+	r = r.reset_index()
+	
+	# Läs in ESVs myndighetslista
+	soup = BeautifulSoup(webload(esv_url))
+	links = soup.select("a[href*=SenasteRegleringsbrev]")
+	
+	# Lägg ihop listorna
+	for link in links:
+		namn = link.get_text().strip().capitalize()
+		r.loc[r['cnamn'] == namn, 'rb'] = 'https://www.esv.se' + link.get("href")	
+	return r
 
 # ================================
 	
@@ -90,29 +81,43 @@ result = ph.container()
 result.markdown('*Inga sökresultat*')
 	
 if search:
-	if doctype == "Instruktion":
-		dt = 'sfs'
-	else:
-		dt = 'rb'
-		
+	hits = 0
+	sources = []
 	ph.empty()
 	result=ph.container()
-	df = load_mr(dt)
+	df = load_mr()
 			
 	for index, row in df.iterrows():
-		hits = 0
-		r = load_doc(row['url'], dt)
+		sfs_hits, rb_hits = 0, 0
+		source = { 'namn': row['namn'] }
+		
+		sfs = row['sfs']
+		r = load_doc(sfs, "sfs")
 		if not r is None:
-			hits = r['text'].lower().count(search.lower())
+			source['sfs'] = r['namn']
+			sfs_hits = r['text'].lower().count(search.lower())
+		else:
+			source['sfs'] = '*Saknas*'
 			
-		if hits > 0:
-			namn = r['namn']
-			url = row['url']
-			result.write(f'[{namn}]({url})')
+		rb = row['rb']
+		r = load_doc(rb, "rb")
+		if not r is None:
+			source['rb'] = r['namn']
+			rb_hits = r['text'].lower().count(search.lower())
+		else:
+			source['rb'] = '*Saknas*'
 			
+		if sfs_hits > 0 or rb_hits > 0:
+			hits += 1
+			result.write(f'[{sfs}]({sfs})')
+			if sfs_hits > 0:
+				result.caption(f' {sfs_hits} träff(ar) i [instruktionen]({sfs})')
+			if rb_hits > 0:
+				result.caption(f' {rb_hits} träff(ar) i senaste [regleringsbrevet]({rb})')
+		sources.append(source)
 				
-#	if hits == 0:
-#		result.write('*Inga sökresultat*')
+	if hits == 0:
+		result.write('*Inga sökresultat*')
 
 #	exp = result.expander('Genomsökta källor')
 #	exp.write('Sökningen sker maskinellt i Regeringskansliets rättdatabas samt Ekonomistyrningsverkets statsliggare. Nedan redovisas  styrdokumenten som ingick i sökingen.')
