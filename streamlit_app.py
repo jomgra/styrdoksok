@@ -63,7 +63,7 @@ def load_mr(dt):
 			u.append('https://www.esv.se' + l.get("href"))
 		data = {
 			'namn': n,
-			'url':, u
+			'url': u
 		}
 		r = pd.dataframe(data)
 		r = r.reset_index()
