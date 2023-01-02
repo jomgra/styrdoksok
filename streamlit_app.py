@@ -100,5 +100,5 @@ if search:
 			hits = r['text'].count(search.lower())
 			if hits > 0:
 				myn = row['namn']
-				result.markdown('[' + r['namn'] + '](' + row['url'] + ')')
+				result.markdown('[' + r['namn'] + '](' + row['url'] + ')<br\>t')
 				result.caption(f'{myn}, {hits} träff(ar)')
