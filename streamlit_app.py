@@ -9,10 +9,7 @@ scb_url = 'https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statl
 
 esv_url = "https://www.esv.se/statsliggaren/"
 
-typ = [
-		'Instruktion', 
-		'Regleringsbrev'
-		]
+typ = [ 'Instruktion', 'Regleringsbrev' ]
 
 # == WEBLOAD ==
 @st.cache(persist=True)
@@ -21,7 +18,8 @@ def webload(url):
 	web.encoding = web.apparent_encoding
 	return web.content
 
-# == LOAD_doclist ==
+# == LOAD_DOCLIST ==
+
 def load_doclist(td):
 	if td == 0:
 		r = pd.read_excel(webload(scb_url))
@@ -42,6 +40,7 @@ def load_doclist(td):
 		return r
 
 # == LOAD_DOC ==
+
 @st.cache(persist=True)
 def load_doc(url, td):
 	if not str(url)[0:4] == "http":
@@ -64,7 +63,6 @@ def load_doc(url, td):
 			'namn': n.get_text(),
 			'text': t.get_text().lower()
 			}
-
 
 # == LAYOUT ==
 	
@@ -94,7 +92,6 @@ if search:
 	t = typ.index(doctype)
 	ph.empty()
 	result = ph.container()		
-
 	df = load_doclist(t)
 			
 	for index, row in df.iterrows():
@@ -104,4 +101,4 @@ if search:
 			hits = r['text'].count(search.lower())
 			if hits:
 				result.markdown('[' + r['namn'] + '](' + row['url'] + ')')
-				result.caption(row['namn'] + ', ' + str(hits) + ' träff(ar)')
+				result.caption(row['namn'].strip() + ', ' + str(hits) + ' träff(ar)')
