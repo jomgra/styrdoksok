@@ -9,10 +9,7 @@ scb_url = 'https://myndighetsregistret.scb.se/myndighet/download?myndgrupp=Statl
 
 esv_url = "https://www.esv.se/statsliggaren/"
 
-typ = [
-	'Instruktion',
-	'Regleringsbrev'
-	]
+typ = ['Instruktion', 'Regleringsbrev']
 
 @st.cache(persist=True)
 def webload(url):
@@ -79,8 +76,9 @@ search = st.text_input(
 
 doctype = st.radio(
     "Typ av dokument att sök i:",
-    (typ, horizontal = True,
-		label_visibility = "collapsed")
+    (typ, 
+		horizontal = True,
+		label_visibility = "collapsed"))
 
 st.write('')
 
