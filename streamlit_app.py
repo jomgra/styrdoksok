@@ -93,7 +93,7 @@ doctype = st.radio(
     (typ), 
 		horizontal = True,
 		label_visibility = "collapsed",
-		on_change = ph.empty())
+		on_change = ph.empty)
 
 st.write('')
 
