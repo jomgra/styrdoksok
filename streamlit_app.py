@@ -105,4 +105,4 @@ if search:
 				res.markdown('[' + r['namn'] + '](' + row['url'] + ')')
 				res.caption(row['namn'].strip() + ', ' + str(hits) + ' träff(ar)')
 
-res.caption('\nAntal dokument med träff: ' + str(tothits))
+	res.caption('\nAntal dokument med träff: ' + str(tothits))
