@@ -88,7 +88,7 @@ ph = st.empty()
 ph.markdown('*Inga sökresultat*')
 
 # == SEARCH ==
-
+tothits = 0
 if search:
 	t = typ.index(doctype)
 	df = load_doclist(t)
@@ -101,5 +101,8 @@ if search:
 		if not r is None:
 			hits = r['text'].count(search.lower())
 			if hits:
+				tothits += 1
 				res.markdown('[' + r['namn'] + '](' + row['url'] + ')')
 				res.caption(row['namn'].strip() + ', ' + str(hits) + ' träff(ar)')
+
+res.caption('\nAntal dokument med träff: ' + str(tothits))
