@@ -26,7 +26,6 @@ def load_doclist(td):
 		r = pd.read_excel(webload(scb_url))
 		r.rename(lambda x: str(x).lower(), axis='columns', inplace=True)
 		r['url'] = "https://rkrattsbaser.gov.se/sfst?bet=" + r['sfs'].astype(str)
-		r = r.reset_index()
 		return r
 	elif td == 1:
 		soup = BeautifulSoup(webload(esv_url))
@@ -37,7 +36,6 @@ def load_doclist(td):
 			u.append('https://www.esv.se' + l.get("href"))
 		data = {'namn': n, 'url': u }
 		r = pd.DataFrame(data)
-		r = r.reset_index()
 		return r
 
 # == LOAD_DOC ==
