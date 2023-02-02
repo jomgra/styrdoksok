@@ -118,18 +118,17 @@ if search:
 		if not r is None:
 			hits = len(re.findall(search.lower(), r['text']))
 			if hits: tothits += 1	
-		
-		df_res = pd.concat(
-			[
-				df_res,
-				pd.DataFrame.from_dict({
-					'org': [row['namn'].strip()], 
-					'hit': [hits], 
-					'doc': [r['namn'].strip()], 
-					'url': [row['url'].strip()]
-					})
-			],
-			ignore_index=True
+			df_res = pd.concat(
+				[
+					df_res,
+					pd.DataFrame.from_dict({
+						'org': [row['namn'].strip()], 
+						'hit': [hits], 
+						'doc': [r['namn'].strip()], 
+						'url': [row['url'].strip()]
+						})
+				],
+				ignore_index=True
 		)
 	
 	if styp.index(sorttype):
